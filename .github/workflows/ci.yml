@@ -6,54 +6,28 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.12"
-
-      - name: Install dependencies
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install pip-tools
-          cd src
-          pip-compile requirements.in
-          pip install -r requirements.txt
-
       - name: Build Docker image
         run: |
           cd src
-          docker build -t smart_cart:latest .
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run lint
-        run: |
-          source venv/bin/activate
-          cd src
-          make lint
+          docker build -t smart-cart:latest .
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run tests
+      - name: Run lint inside Docker Compose
         run: |
-          source venv/bin/activate
           cd src
-          docker compose run --rm smart_cart python -m pytest -vv --cov=smart_cart --cov-report=xml:coverage.xml --cov-report=term
-          docker compose down
+          make ci-lint
 
-  upload-artifacts:
-    runs-on: ubuntu-latest
-    steps:
+      - name: Run tests inside Docker Compose
+        run: |
+          cd src
+          make ci-test
+
       - name: Upload coverage report
         uses: actions/upload-artifact@v3
         with:

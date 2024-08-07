@@ -41,3 +41,15 @@ lint:
 
 lint-fix:
 	docker compose run --rm --no-deps smart_cart black . && isort . && flake8 .
+
+
+#####
+# CI targets
+#####
+
+ci-lint:
+	docker compose run --rm --no-deps smart_cart black --check --diff . && flake8 . && isort --check-only .
+
+ci-test:
+	-docker compose run --rm smart_cart python -m pytest -vv --cov=smart_cart --cov-report=xml:coverage.xml --cov-report=term
+	docker compose down
