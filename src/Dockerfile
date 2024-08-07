@@ -13,7 +13,8 @@ COPY requirements.in requirements.txt .flake8 /app/
 RUN pip install --upgrade pip \
  && pip install pip-tools \
  && pip-compile requirements.in \
- && pip install -r requirements.txt
+ && pip install -r requirements.txt \
+ && pip install flake8
 
 COPY . /app/
 
