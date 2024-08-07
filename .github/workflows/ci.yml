@@ -43,7 +43,8 @@ jobs:
       run: |
         source venv/bin/activate
         cd src
-        make test
+        docker compose run --rm smart_cart python -m pytest -vv --cov=smart_cart --cov-report=xml:coverage.xml --cov-report=term
+        docker compose down
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v3
