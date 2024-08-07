@@ -8,10 +8,11 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-COPY requirements.in /app/
-COPY requirements.txt /app/
+COPY requirements.in requirements.txt .flake8 /app/
 
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip \
+ && pip-compile requirements.in \
+ && pip install -r requirements.txt
 
 COPY . /app/
 
