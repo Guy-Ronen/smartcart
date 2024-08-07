@@ -8,9 +8,6 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
 COPY requirements.in requirements.txt .flake8 /app/
 
 RUN pip install --upgrade pip \
