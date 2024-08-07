@@ -8,15 +8,15 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
 COPY requirements.in requirements.txt .flake8 /app/
 
 RUN pip install --upgrade pip \
  && pip install pip-tools \
  && pip-compile requirements.in \
- && pip install -r requirements.txt \
- && pip install flake8
-
-COPY . /app/
+ && pip install -r requirements.txt
 
 ARG COMMIT=local-commit
 ENV COMMIT=$COMMIT
@@ -27,4 +27,3 @@ COPY --from=ghcr.io/ufoscout/docker-compose-wait:latest /wait /wait
 
 CMD sh -c "/wait \
             && uvicorn --host 0.0.0.0 --port $PORT smart_cart.main:app"
-
