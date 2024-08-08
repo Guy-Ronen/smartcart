@@ -1,14 +1,28 @@
-black
+## Base
 fastapi[all]
-flake8
-isort
-moto
+boto3
 pyjwt
 pynamodb
+requests
+
+## Linting
+black
+flake8
+isort
+mypy
+
+## Testing
+moto
 pytest
 pytest-cov
 pytest-httpx
 pytest-xdist
+
+## Development
 python-dotenv
 python-json-logger
-requests
+
+## Types
+types-boto3
+types-PyYAML
+types-requests
