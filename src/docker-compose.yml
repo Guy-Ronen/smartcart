@@ -1,0 +1,44 @@
+services:
+  smart_cart:
+    environment:
+      PORT: 1000
+      ENVIRONMENT: "local"
+      AWS_DEFAULT_REGION: "us-east-1"
+      AWS_ACCESS_KEY_ID : "dummyaccess"
+      AWS_SECRET_ACCESS_KEY: "dummysecret"
+      AWS_SESSION_TOKEN: "dummytoken"
+      DYNAMODB_ENDPOINT: "http://dynamodb-local:8000"
+    build: .
+    ports:
+      - "1000:1000"
+    volumes:
+      - .:/app
+
+  # dynamodb-local:
+  #   image: amazon/dynamodb-local
+  #   ports:
+  #     - "8005:8000"
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "-c", "! curl -f http://localhost:8000"]
+  #     interval: 1s
+  #     timeout: 3s
+  #     retries: 5
+
+  # dynamodb-setup-reports:
+  #   image: amazon/aws-cli:latest
+  #   depends_on:
+  #     dynamodb-local:
+  #       condition: service_healthy
+  #   environment:
+  #     AWS_DEFAULT_REGION: "us-east-1"
+  #     AWS_ACCESS_KEY_ID : "dummyaccess"
+  #     AWS_SECRET_ACCESS_KEY: "dummysecret"
+  #     AWS_SESSION_TOKEN: "dummytoken"
+  #     DYNAMODB_ENDPOINT: "http://dynamodb-local:8000"
+  #   command: >
+  #           dynamodb create-table
+  #           --endpoint-url http://dynamodb-local:8000
+  #           --table-name candidate-report-service-local-reports
+  #           --attribute-definitions AttributeName=report_id,AttributeType=S
+  #           --key-schema AttributeName=report_id,KeyType=HASH
+  #           --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1

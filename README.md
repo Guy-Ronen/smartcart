@@ -1,2 +1,3 @@
-# smartcart
-My University Capstone: An AI assistant to manage and optimize grocery habits.
+# SmartCart - Backend
+
+This is the backend for SmartCart, my university capstone project.
