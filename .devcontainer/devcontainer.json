@@ -1,0 +1,80 @@
+{
+  "dockerComposeFile": [
+    "../src/docker-compose.yml",
+    "../src/docker-compose.devcontainer.yml"
+  ],
+  "service": "smart_cart",
+  "remoteUser": "smart_cart-user",
+  "containerUser": "smart_cart-user",
+  "name": "smart_cart",
+  "workspaceFolder": "/app",
+  "postCreateCommand": [
+    "sh",
+    "/app/.devcontainer/scripts/setup.sh"
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/aws-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": true,
+      "username": "smart_cart-user"
+    },
+    "ghcr.io/devcontainers/features/terraform:1": {},
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "formulahendry.docker-explorer",
+        "GitLab.gitlab-workflow",
+        "GitHub.copilot",
+        "vsls-contrib.codetour",
+        "ms-vscode.makefile-tools",
+        "LittleFoxTeam.vscode-python-test-adapter",
+        "hashicorp.terraform",
+        "m4ns0ur.base64",
+        "eamodio.gitlens",
+        "coverlet.coverage-gutters"
+      ],
+      "settings": {
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter"
+        },
+        "files.watcherExclude": {
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true
+        },
+        "codetour.promptForWorkspaceTours": true,
+        "codetour.customTourDirectory": ".devcontainer/code-tours",
+        "database-client.telemetry.usesOnlineServices": false,
+        "python.defaultInterpreterPath": "/app/src/venv/bin/python",
+        "python.interpreter.infoVisibility": "always",
+        "python.testing.pytestArgs": [
+          "-vv",
+          "--cov=smart_cart",
+          "--cov-report=xml:coverage.xml",
+          "--cov-report=term"
+        ],
+        "python.testing.unittestEnabled": false,
+        "python.testing.pytestEnabled": true,
+        "python.testing.cwd": "/app",
+        "python.testing.autoTestDiscoverOnSaveEnabled": true,
+        "[terraform]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file"
+        },
+        "[terraform-vars]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file"
+        }
+      }
+    }
+  }
+}
