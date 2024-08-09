@@ -37,7 +37,7 @@ format:
 	docker compose run --rm --no-deps smart_cart black . && isort --check-only .
 
 lint:
-	docker compose run --rm --no-deps smart_cart black --check --diff . && flake8 . && isort --check-only .
+	docker compose run --rm --no-deps smart_cart black --check --diff . && flake8 . && isort --check-only . && mypy .
 
 lint-fix:
 	docker compose run --rm --no-deps smart_cart black . && isort . && flake8 .
@@ -48,7 +48,7 @@ lint-fix:
 #####
 
 ci-lint:
-	docker compose run --rm --no-deps smart_cart black --check --diff . && flake8 . && isort --check-only .
+	docker compose run --rm --no-deps smart_cart black --check --diff . && flake8 . && isort --check-only . && mypy .
 
 ci-test:
 	-docker compose run --rm smart_cart python -m pytest -vv --cov=smart_cart --cov-report=xml:coverage.xml --cov-report=term

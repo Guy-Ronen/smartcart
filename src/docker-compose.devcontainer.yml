@@ -1,0 +1,8 @@
+version: "3"
+services:
+  smart_cart:
+    environment:
+      PYTHONPATH : "src/"
+    command: sleep infinity
+    volumes:
+      - ../:/app

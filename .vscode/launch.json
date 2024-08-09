@@ -1,0 +1,40 @@
+{
+  "configurations": [
+    {
+      "args": [
+        "src.smart_cart.main:app",
+        "--reload",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "1000"
+      ],
+      "justMyCode": true,
+      "name": "FastAPI Server",
+      "program": "/app/src/venv/bin/uvicorn",
+      "python": "/app/src/venv/bin/python",
+      "request": "launch",
+      "type": "python",
+      "env": {
+        "ENVIRONMENT": "local"
+      }
+    },
+    {
+      "args": [
+        "-vv",
+        "--cov=smart_cart",
+        "--cov-report=xml:coverage.xml",
+        "--cov-report=term"
+      ],
+      "justMyCode": false,
+      "module": "pytest",
+      "name": "Run All Tests",
+      "request": "launch",
+      "subProcess": true,
+      "type": "debugpy",
+      "env": {
+        "ENVIRONMENT": "local"
+      }
+    },
+  ]
+}
