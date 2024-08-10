@@ -21,11 +21,7 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install --upgrade pip
-          pip install pip-tools
-          cd src
-          pip-compile requirements.in
-          pip install -r requirements.txt
+          pip install flake8 pytest pytest-cov
 
       - name: Build Docker image
         run: |
