@@ -11,6 +11,8 @@ anyio==4.4.0
     #   httpx
     #   starlette
     #   watchfiles
+black==24.8.0
+    # via -r requirements.in
 boto3==1.34.154
     # via
     #   -r requirements.in
@@ -36,6 +38,7 @@ charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via
+    #   black
     #   typer
     #   uvicorn
 coverage[toml]==7.6.1
@@ -92,10 +95,18 @@ mdurl==0.1.2
     # via markdown-it-py
 moto==5.0.12
     # via -r requirements.in
+mypy-extensions==1.0.0
+    # via black
 orjson==3.10.6
     # via fastapi
 packaging==24.1
-    # via pytest
+    # via
+    #   black
+    #   pytest
+pathspec==0.12.1
+    # via black
+platformdirs==4.2.2
+    # via black
 pluggy==1.5.0
     # via pytest
 pycparser==2.22

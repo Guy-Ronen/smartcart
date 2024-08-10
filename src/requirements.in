@@ -5,6 +5,9 @@ pyjwt
 pynamodb
 requests
 
+## Linting
+black
+
 ## Testing
 moto
 pytest
