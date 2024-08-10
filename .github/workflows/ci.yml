@@ -17,28 +17,17 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install flake8 isort black mypy pytest pytest-cov pydantic
-
       - name: Build Docker image
-        run: |
-          cd src
-          docker build -t smart_cart:latest .
+        working-directory: src
+        run: docker build -t smart_cart:latest .
 
       - name: Run lint
-        run: |
-          source venv/bin/activate
-          cd src
-          make ci-lint
+        working-directory: src
+        run: make ci-lint
 
       - name: Run tests
-        run: |
-          source venv/bin/activate
-          cd src
-          make ci-test
+        working-directory: src
+        run: make ci-test
 
       - name: Code Coverage Report
         uses: romeovs/lcov-reporter-action@v0.4.0
