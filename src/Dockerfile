@@ -17,6 +17,8 @@ RUN pip install --upgrade pip \
 
 RUN pip install flake8
 
+ENV PATH="/app/.local/bin:${PATH}"
+
 ARG COMMIT=local-commit
 ENV COMMIT=$COMMIT
 ENV PORT=1000
