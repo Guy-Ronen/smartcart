@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from yaml import safe_load
+
 from smart_cart.main import app
 
 
