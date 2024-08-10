@@ -13,8 +13,9 @@ COPY requirements.in requirements.txt .flake8 /app/
 RUN pip install --upgrade pip \
  && pip install pip-tools \
  && pip-compile requirements.in \
- && pip install -r requirements.txt \
- pip install flake8
+ && pip install -r requirements.txt
+
+RUN pip install flake8
 
 ARG COMMIT=local-commit
 ENV COMMIT=$COMMIT
