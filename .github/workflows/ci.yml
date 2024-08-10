@@ -21,7 +21,7 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install flake8 isort black mypy pytest pytest-cov
+          pip install flake8 isort black mypy pytest pytest-cov pydantic
 
       - name: Build Docker image
         run: |
