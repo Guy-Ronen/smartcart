@@ -18,6 +18,7 @@ RUN pip install --upgrade pip \
 ARG COMMIT=local-commit
 ENV COMMIT=$COMMIT
 ENV PORT=1000
+ENV PATH="/usr/local/bin:${PATH}"
 
 # Add util that checks if other containers are ready before running tests
 COPY --from=ghcr.io/ufoscout/docker-compose-wait:latest /wait /wait
