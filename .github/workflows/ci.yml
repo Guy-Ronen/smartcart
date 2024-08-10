@@ -24,6 +24,8 @@ jobs:
       - name: Run lint
         working-directory: src
         run: make ci-lint
+        env:
+          PATH: "/usr/local/bin:${PATH}"
 
       - name: Run tests
         working-directory: src
