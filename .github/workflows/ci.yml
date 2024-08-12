@@ -17,32 +17,27 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install pip-tools
-          cd src
-          pip-compile requirements.in
-          pip install -r requirements.txt
+      - name: Install linting dependencies
+        run: pip install flake8 isort mypy types-PyYAML pydantic
 
       - name: Build Docker image
-        run: |
-          cd src
-          docker build -t smart_cart:latest .
+        working-directory: src
+        run: docker build -t smart_cart:latest .
 
       - name: Run lint
-        run: |
-          source venv/bin/activate
-          cd src
-          make ci-lint
+        working-directory: src
+        run: make ci-lint
 
       - name: Run tests
-        run: |
-          source venv/bin/activate
-          cd src
-          make ci-test
+        working-directory: src
+        run: make ci-test
+
+      - name: Code Coverage Report
+        uses: romeovs/lcov-reporter-action@v0.4.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: src
+          lcov-file: ./coverage.lcov
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4

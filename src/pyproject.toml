@@ -13,6 +13,8 @@ extend-exclude = '''
 plugins = [
   "pydantic.mypy"
 ]
+ignore_missing_imports = true
+
 exclude = [
   '\.venv',
   'venv',
