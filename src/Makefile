@@ -5,6 +5,26 @@ ifeq ($(shell uname -m), arm64)
 endif
 
 #####
+# Help
+#####
+
+.PHONY: help
+help:
+	@echo "Target                          | Description"
+	@echo "---------------------------------------------------------------------------------"
+	@echo "build                           | Builds the smart_cart image"
+	@echo "run                             | Runs the smart_cart and dependency containers"
+	@echo "debug                           | Runs the smart_cart and dependency containers"
+	@echo "                                | with a configuration that allows pdb breakpoints"
+	@echo "shell                           | Runs the smart_cart and database, and enters"
+	@echo "                                | a bash prompt in the src directory"
+	@echo "test                            | Runs all tests"
+	@echo "format                          | Formats the codebase using black and isort"
+	@echo "lint                            | Runs static checks"
+	@echo "lint-fix                        | Fixes linting errors"
+	@echo "generate-jwt                    | Outputs the generated JWT for local API authentication"
+
+#####
 # Build
 #####
 build:
@@ -15,6 +35,10 @@ build:
 #####
 run:
 	docker compose up  || docker compose down
+	docker compose down
+
+debug:
+	docker compose -f docker-compose.yml run --rm --service-ports smart_cart
 	docker compose down
 
 shell:
@@ -41,6 +65,12 @@ lint:
 
 lint-fix:
 	docker compose run --rm --no-deps smart_cart black . && isort . && flake8 .
+
+#####
+# Scripts
+####
+generate-jwt:
+	docker compose --env-file env_files/local.env run --rm --no-deps smart_cart python scripts/generate_jwt_token.py
 
 
 #####
