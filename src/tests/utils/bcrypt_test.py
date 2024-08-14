@@ -1,4 +1,5 @@
 import bcrypt
+
 from smart_cart.utils.bcrypt import hash_password, verify_password
 
 

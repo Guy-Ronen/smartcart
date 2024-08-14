@@ -1,4 +1,5 @@
 import uuid
+
 from smart_cart.schemas.user import User
 from smart_cart.utils.bcrypt import hash_password, verify_password
 from smart_cart.utils.factories import user_factory
@@ -28,4 +29,3 @@ def test_user():
     assert user_schema.model_dump() == user
 
     assert verify_password(password_to_hash, user_schema.hashed_password)
-
