@@ -1,17 +1,11 @@
 import uuid
 
 from smart_cart.schemas.token import TokenPayload
+from smart_cart.utils.factories import token_payload_factory
 
 
 def test_token_payload():
-    token = {
-        "token_id": str(uuid.uuid4()),
-        "user_id": "user123",
-        "username": "John Doe",
-        "email": "john.doe@example.com",
-        "created_at": 1629352800,
-        "expires_at": 1629439200,
-    }
+    token = token_payload_factory().model_dump()
 
     token_payload = TokenPayload(**token)
 
