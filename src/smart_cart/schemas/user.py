@@ -12,7 +12,7 @@ class User(BaseModel):
     hashed_password: str
     first_name: str
     last_name: str
-    created_at: int = datetime.now().timestamp()
+    created_at: int = int(datetime.now().timestamp())
     updated_at: Optional[int] = None
     last_login: Optional[int] = None
     is_active: bool = True

@@ -1,5 +1,6 @@
 import datetime
 import uuid
+from typing import Optional
 
 from smart_cart.schemas.token import TokenPayload
 from smart_cart.schemas.user import User
@@ -31,8 +32,8 @@ def user_factory(
     first_name: str = "John",
     last_name: str = "Doe",
     created_at: int = int(datetime.datetime.now().timestamp()),
-    updated_at: int = None,
-    last_login: int = None,
+    updated_at: Optional[int] = None,
+    last_login: Optional[int] = None,
     is_active: bool = True,
     is_superuser: bool = False,
     is_staff: bool = False,
