@@ -1,5 +1,6 @@
 ## Base
 fastapi[all]
+bcrypt
 boto3
 pyjwt
 pynamodb
