@@ -25,7 +25,7 @@ def token_payload_factory(
 
 
 def user_factory(
-    id: str = str(uuid.uuid4()),
+    user_id: str = str(uuid.uuid4()),
     username: str = "john_doe",
     email: str = "john.doe@example.com",
     hashed_password: str = "hashed_password",
@@ -39,7 +39,7 @@ def user_factory(
     is_staff: bool = False,
 ):
     return User(
-        id=id,
+        user_id=user_id,
         username=username,
         email=email,
         hashed_password=hashed_password,
