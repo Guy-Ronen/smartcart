@@ -7,7 +7,8 @@ services:
       AWS_ACCESS_KEY_ID : "dummyaccess"
       AWS_SECRET_ACCESS_KEY: "dummysecret"
       AWS_SESSION_TOKEN: "dummytoken"
-      DYNAMODB_ENDPOINT: "http://dynamodb-local:8000"
+      HOST: "http://dynamodb-local:8000"
+      USERS_TABLE_NAME: "smart_cart-local-users"
     build: .
     ports:
       - "1000:1000"
@@ -15,32 +16,35 @@ services:
       - .:/app
     env_file:
       - env_files/local.env
+    depends_on:
+      dynamodb-local-users:
+        condition: service_completed_successfully
 
-  # dynamodb-local:
-  #   image: amazon/dynamodb-local
-  #   ports:
-  #     - "8005:8000"
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "-c", "! curl -f http://localhost:8000"]
-  #     interval: 1s
-  #     timeout: 3s
-  #     retries: 5
+  dynamodb-local:
+    image: amazon/dynamodb-local
+    ports:
+      - "8005:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "-c", "! curl -f http://localhost:8000"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
 
-  # dynamodb-setup-reports:
-  #   image: amazon/aws-cli:latest
-  #   depends_on:
-  #     dynamodb-local:
-  #       condition: service_healthy
-  #   environment:
-  #     AWS_DEFAULT_REGION: "us-east-1"
-  #     AWS_ACCESS_KEY_ID : "dummyaccess"
-  #     AWS_SECRET_ACCESS_KEY: "dummysecret"
-  #     AWS_SESSION_TOKEN: "dummytoken"
-  #     DYNAMODB_ENDPOINT: "http://dynamodb-local:8000"
-  #   command: >
-  #           dynamodb create-table
-  #           --endpoint-url http://dynamodb-local:8000
-  #           --table-name candidate-report-service-local-reports
-  #           --attribute-definitions AttributeName=report_id,AttributeType=S
-  #           --key-schema AttributeName=report_id,KeyType=HASH
-  #           --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
+  dynamodb-local-users:
+    image: amazon/aws-cli:latest
+    depends_on:
+      dynamodb-local:
+        condition: service_healthy
+    environment:
+      AWS_DEFAULT_REGION: "us-east-1"
+      AWS_ACCESS_KEY_ID : "dummyaccess"
+      AWS_SECRET_ACCESS_KEY: "dummysecret"
+      AWS_SESSION_TOKEN: "dummytoken"
+      HOST: "http://dynamodb-local:8000"
+    command: >
+            dynamodb create-table
+            --endpoint-url http://dynamodb-local:8000
+            --table-name smart_cart-local-users
+            --attribute-definitions AttributeName=user_id,AttributeType=S
+            --key-schema AttributeName=user_id,KeyType=HASH
+            --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1

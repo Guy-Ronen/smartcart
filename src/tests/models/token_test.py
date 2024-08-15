@@ -1,6 +1,6 @@
 import uuid
 
-from smart_cart.schemas.token import TokenPayload
+from smart_cart.models.token import TokenPayload
 from smart_cart.utils.factories import token_payload_factory
 
 
