@@ -4,7 +4,15 @@ from pydantic_settings import BaseSettings
 
 
 class CommonSettings(BaseSettings):
+    environment: str = os.getenv("ENVIRONMENT", "unknown-environment")
     token_payload_secret_key: str = ""
+    table_name: str = os.getenv("USERS_TABLE_NAME", "users")
+    region: str = os.getenv("AWS_DEFAULT_REGION", "us-east-1")
+    aws_access_key_id: str = os.getenv("AWS_ACCESS_KEY_ID", "")
+    aws_secret_access_key: str = os.getenv("AWS_SECRET_ACCESS_KEY", "")
+    aws_session_token: str = os.getenv("AWS_SESSION_TOKEN", "")
+    host: str = os.getenv("HOST", "")
+
 
 
 class DeployedSettings(CommonSettings):
