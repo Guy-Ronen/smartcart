@@ -2,8 +2,8 @@ import datetime
 import uuid
 from typing import Optional
 
-from smart_cart.schemas.token import TokenPayload
-from smart_cart.schemas.user import User
+from smart_cart.models.token import TokenPayload
+from smart_cart.models.user import User
 
 
 def token_payload_factory(

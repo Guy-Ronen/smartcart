@@ -3,7 +3,7 @@ from fastapi import HTTPException, Request
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from smart_cart.schemas.token import TokenPayload
+from smart_cart.models.token import TokenPayload
 from smart_cart.utils.settings import settings
 
 

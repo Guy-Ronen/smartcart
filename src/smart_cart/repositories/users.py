@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from pynamodb.attributes import NumberAttribute, UnicodeAttribute
 from pynamodb.models import Model
 
-from smart_cart.schemas.user import User as UserModel
+from smart_cart.models.user import User as UserModel
 from smart_cart.utils.settings import settings
 
 
