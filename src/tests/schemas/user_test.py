@@ -1,5 +1,8 @@
 import uuid
 
+from pydantic import ValidationError
+import pytest
+
 from smart_cart.schemas.user import User
 from smart_cart.utils.bcrypt import hash_password, verify_password
 from smart_cart.utils.factories import user_factory
@@ -11,7 +14,7 @@ def test_user():
 
     user_schema = User(**user)
 
-    assert user_schema.id == user["id"]
+    assert user_schema.user_id == user["user_id"]
     assert user_schema.username == user["username"]
     assert user_schema.email == user["email"]
     assert user_schema.hashed_password == user["hashed_password"]
@@ -24,8 +27,42 @@ def test_user():
     assert user_schema.is_superuser == user["is_superuser"]
     assert user_schema.is_staff == user["is_staff"]
 
-    assert uuid.UUID(user_schema.id)
+    assert uuid.UUID(user_schema.user_id)
 
     assert user_schema.model_dump() == user
 
     assert verify_password(password_to_hash, user_schema.hashed_password)
+
+
+@pytest.mark.parametrize(
+    "field, invalid_value",
+    [
+        ("user_id", 123),
+        ("username", ""),
+        ("email", "invalid_email"),
+        ("hashed_password", ""),
+        ("first_name", ""),
+        ("last_name", ""),
+        ("created_at", "invalid_date"),
+        ("updated_at", "invalid_date"),
+        ("last_login", "invalid_date"),
+        ("is_active", "invalid_bool"),
+        ("is_superuser", "invalid_bool"),
+        ("is_staff", "invalid_bool"),
+    ],
+)
+def test_create_user_invalid(field, invalid_value):
+    with pytest.raises(ValidationError):
+        User(**{field: invalid_value})
+
+
+def test_from_dynamodb_item(user_repository):
+    expected_report = user_factory()
+
+    user_repository.create_user(expected_report)
+
+    item = user_repository.get_user(expected_report.user_id).model_dump()
+
+    actual_report = User.from_dynamoItem(item)
+
+    assert actual_report == expected_report
