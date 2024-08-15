@@ -6,17 +6,8 @@ router = APIRouter()
 logger = logging.getLogger(__name__)
 
 
-# util functions
 def perform_health_check():
     return {"ok": True, "hello": "world"}
-
-
-# routes
-
-
-@router.get("/")
-async def root():
-    return "Hello World"
 
 
 @router.get("/health")
