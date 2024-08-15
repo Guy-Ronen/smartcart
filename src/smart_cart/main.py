@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from smart_cart.routers.root import router as root_router
 from smart_cart.routers.health import router as health_router
+from smart_cart.routers.root import router as root_router
 from smart_cart.utils.middleware import TokenMiddleware
 
 app = FastAPI()
