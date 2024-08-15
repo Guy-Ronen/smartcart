@@ -14,7 +14,6 @@ class CommonSettings(BaseSettings):
     host: str = os.getenv("HOST", "")
 
 
-
 class DeployedSettings(CommonSettings):
     def __init__(self, **data):
         super().__init__(**data)

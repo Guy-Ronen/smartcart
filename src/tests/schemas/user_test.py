@@ -1,7 +1,7 @@
 import uuid
 
-from pydantic import ValidationError
 import pytest
+from pydantic import ValidationError
 
 from smart_cart.schemas.user import User
 from smart_cart.utils.bcrypt import hash_password, verify_password
