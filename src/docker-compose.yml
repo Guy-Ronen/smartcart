@@ -37,14 +37,15 @@ services:
         condition: service_healthy
     environment:
       AWS_DEFAULT_REGION: "us-east-1"
-      AWS_ACCESS_KEY_ID : "dummyaccess"
+      AWS_ACCESS_KEY_ID: "dummyaccess"
       AWS_SECRET_ACCESS_KEY: "dummysecret"
       AWS_SESSION_TOKEN: "dummytoken"
       HOST: "http://dynamodb-local:8000"
     command: >
-            dynamodb create-table
-            --endpoint-url http://dynamodb-local:8000
-            --table-name smart_cart-local-users
-            --attribute-definitions AttributeName=user_id,AttributeType=S
-            --key-schema AttributeName=user_id,KeyType=HASH
-            --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
+      dynamodb create-table
+      --endpoint-url http://dynamodb-local:8000
+      --table-name smart_cart-local-users
+      --attribute-definitions AttributeName=user_id,AttributeType=S AttributeName=email,AttributeType=S
+      --key-schema AttributeName=user_id,KeyType=HASH
+      --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
+      --global-secondary-indexes '[{"IndexName": "email-index", "KeySchema": [{"AttributeName": "email", "KeyType": "HASH"}], "Projection": {"ProjectionType": "ALL"}, "ProvisionedThroughput": {"ReadCapacityUnits": 1, "WriteCapacityUnits": 1}}]'
