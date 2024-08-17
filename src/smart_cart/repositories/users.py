@@ -1,9 +1,20 @@
 from pydantic import BaseModel
 from pynamodb.attributes import NumberAttribute, UnicodeAttribute
+from pynamodb.indexes import AllProjection, GlobalSecondaryIndex
 from pynamodb.models import Model
 
 from smart_cart.models.user import User as UserModel
 from smart_cart.utils.settings import settings
+
+
+class EmailIndex(GlobalSecondaryIndex):
+    class Meta:
+        index_name = "email-index"
+        projection = AllProjection()
+        read_capacity_units = 1
+        write_capacity_units = 1
+
+    email = UnicodeAttribute(hash_key=True)
 
 
 class User(Model):
@@ -18,6 +29,7 @@ class User(Model):
     user_id = UnicodeAttribute(hash_key=True)
     username = UnicodeAttribute()
     email = UnicodeAttribute()
+    email_index = EmailIndex()
     hashed_password = UnicodeAttribute()
     first_name = UnicodeAttribute()
     last_name = UnicodeAttribute()
@@ -64,5 +76,14 @@ class UserRepository(BaseModel):
         try:
             item = User.get(hash_key=user_id)
         except User.DoesNotExist:
+            return None
+        return UserModel.from_dynamoItem(item.to_simple_dict())
+
+    @staticmethod
+    def get_user_by_email(email: str) -> UserModel | None:
+        try:
+            result = User.email_index.query(email)
+            item = next(result)
+        except StopIteration:
             return None
         return UserModel.from_dynamoItem(item.to_simple_dict())
