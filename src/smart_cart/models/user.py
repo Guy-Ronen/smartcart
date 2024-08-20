@@ -1,18 +1,16 @@
-import uuid
-from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, EmailStr
 
 
 class User(BaseModel):
-    user_id: str = str(uuid.uuid4())
+    user_id: str
     username: str
     email: EmailStr
     hashed_password: str
     first_name: str
     last_name: str
-    created_at: int = int(datetime.now().timestamp())
+    created_at: int
     updated_at: Optional[int] = None
     last_login: Optional[int] = None
     is_active: bool = True
