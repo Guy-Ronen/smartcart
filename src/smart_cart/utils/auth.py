@@ -23,8 +23,8 @@ def create_access_token(user: User) -> str:
         user_id=user.user_id,
         username=user.username,
         email=user.email,
-        created_at=int(datetime.datetime.now().timestamp()),
-        expires_at=int((datetime.datetime.now() + datetime.timedelta(days=1)).timestamp()),
+        created_at=int(datetime.datetime.now(datetime.UTC).timestamp()),
+        expires_at=int((datetime.datetime.now(datetime.UTC) + datetime.timedelta(days=1)).timestamp()),
     )
 
     encoded_jwt = jwt.encode(token_payload.model_dump(), settings.token_payload_secret_key, algorithm="HS256")
