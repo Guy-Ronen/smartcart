@@ -1,21 +1,19 @@
+import datetime
+from typing import Optional
+
 import jwt
 from fastapi import HTTPException, Request
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from smart_cart.models.token import TokenPayload
+from smart_cart.utils.constants import WHITELISTED_ENDPOINTS
 from smart_cart.utils.settings import settings
 
 
 class TokenMiddleware(BaseHTTPMiddleware):
 
-    whitelisted_endpoints = [
-        "/health",
-        "/redoc",
-        "/openapi.json",
-    ]
-
-    def verify_token(self, token: str) -> TokenPayload | None:
+    def verify_token(self, token: str) -> Optional[TokenPayload]:
         try:
             payload = TokenPayload(
                 **jwt.decode(
@@ -29,7 +27,8 @@ class TokenMiddleware(BaseHTTPMiddleware):
         return payload
 
     async def dispatch(self, request: Request, call_next):
-        if request.url.path not in self.whitelisted_endpoints:
+        normalized_path = request.url.path.rstrip("/")
+        if normalized_path not in WHITELISTED_ENDPOINTS:
             auth = request.headers.get("Authorization")
             if not auth or not auth.startswith("Bearer "):
                 return JSONResponse(
@@ -53,6 +52,6 @@ class TokenMiddleware(BaseHTTPMiddleware):
     def check_user_data(self, request: Request) -> bool:
         user: TokenPayload = request.state.user
 
-        if user.expires_at < user.created_at:
+        if user.expires_at < int(datetime.datetime.now(datetime.UTC).timestamp()):
             return False
         return True
