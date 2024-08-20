@@ -13,6 +13,28 @@ paths:
               schema: {}
           description: Successful Response
       summary: Root
+  /api/v1/signup:
+    post:
+      operationId: signup_api_v1_signup_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Signup
   /health:
     get:
       operationId: health_health_get
@@ -23,3 +45,91 @@ paths:
               schema: {}
           description: Successful Response
       summary: Health
+components:
+  schemas:
+    HTTPValidationError:
+      type: object
+      title: HTTPValidationError
+      properties:
+        detail:
+          type: array
+          title: Detail
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    User:
+      type: object
+      title: User
+      properties:
+        created_at:
+          type: integer
+          title: Created At
+        email:
+          type: string
+          title: Email
+          format: email
+        first_name:
+          type: string
+          title: First Name
+        hashed_password:
+          type: string
+          title: Hashed Password
+        is_active:
+          type: boolean
+          title: Is Active
+          default: true
+        is_staff:
+          type: boolean
+          title: Is Staff
+          default: false
+        is_superuser:
+          type: boolean
+          title: Is Superuser
+          default: false
+        last_login:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Last Login
+        last_name:
+          type: string
+          title: Last Name
+        updated_at:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Updated At
+        user_id:
+          type: string
+          title: User Id
+        username:
+          type: string
+          title: Username
+      required:
+        - user_id
+        - username
+        - email
+        - hashed_password
+        - first_name
+        - last_name
+        - created_at
+    ValidationError:
+      type: object
+      title: ValidationError
+      properties:
+        loc:
+          type: array
+          title: Location
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      required:
+        - loc
+        - msg
+        - type
