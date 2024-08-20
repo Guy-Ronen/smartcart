@@ -33,3 +33,12 @@ def user_repository():
         aws_session_token=settings.aws_session_token,
         host=settings.host,
     )
+
+
+@pytest.fixture
+def client():
+    from fastapi.testclient import TestClient
+
+    from smart_cart.main import app
+
+    return TestClient(app)
