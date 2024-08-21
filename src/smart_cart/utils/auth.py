@@ -6,6 +6,7 @@ import jwt
 
 from smart_cart.models.token import TokenPayload
 from smart_cart.models.user import User
+from smart_cart.utils.constants import DATETIME_NOW_TIMESTAMP
 from smart_cart.utils.settings import settings
 
 
@@ -23,7 +24,7 @@ def create_access_token(user: User) -> str:
         user_id=user.user_id,
         username=user.username,
         email=user.email,
-        created_at=int(datetime.datetime.now(datetime.UTC).timestamp()),
+        created_at=DATETIME_NOW_TIMESTAMP,
         expires_at=int((datetime.datetime.now(datetime.UTC) + datetime.timedelta(days=1)).timestamp()),
     )
 
