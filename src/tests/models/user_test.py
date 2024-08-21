@@ -3,9 +3,11 @@ import uuid
 import pytest
 from pydantic import ValidationError
 
-from smart_cart.models.user import User
+from smart_cart.models.user import User, UserSignUp
 from smart_cart.utils.auth import hash_password, verify_password
-from smart_cart.utils.factories import user_factory
+from smart_cart.utils.factories import user_factory, user_signup_factory
+
+# User #
 
 
 def test_user():
@@ -57,12 +59,42 @@ def test_create_user_invalid(field, invalid_value):
 
 
 def test_from_dynamodb_item(user_repository):
-    expected_report = user_factory()
+    expected_user = user_factory()
 
-    user_repository.create_user(expected_report)
+    user_repository.create_user(expected_user)
 
-    item = user_repository.get_user(expected_report.user_id).model_dump()
+    item = user_repository.get_user(expected_user.user_id).model_dump()
 
-    actual_report = User.from_dynamoItem(item)
+    actual_user = User.from_dynamoItem(item)
 
-    assert actual_report == expected_report
+    assert actual_user == expected_user
+
+
+# UserSignUp #
+
+
+def test_user_sign_up():
+    user_sign_up = user_signup_factory().model_dump()
+
+    user_sign_up_schema = UserSignUp(**user_sign_up)
+
+    assert user_sign_up_schema.username == user_sign_up["username"]
+    assert user_sign_up_schema.email == user_sign_up["email"]
+    assert user_sign_up_schema.password == user_sign_up["password"]
+    assert user_sign_up_schema.first_name == user_sign_up["first_name"]
+    assert user_sign_up_schema.last_name == user_sign_up["last_name"]
+
+
+@pytest.mark.parametrize(
+    "field, invalid_value",
+    [
+        ("username", ""),
+        ("email", "invalid_email"),
+        ("password", ""),
+        ("first_name", ""),
+        ("last_name", ""),
+    ],
+)
+def test_create_user_sign_up_invalid(field, invalid_value):
+    with pytest.raises(ValidationError):
+        UserSignUp(**{field: invalid_value})
