@@ -20,7 +20,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserSignUp'
         required: true
       responses:
         '201':
@@ -56,13 +56,10 @@ components:
           title: Detail
           items:
             $ref: '#/components/schemas/ValidationError'
-    User:
+    UserSignUp:
       type: object
-      title: User
+      title: UserSignUp
       properties:
-        created_at:
-          type: integer
-          title: Created At
         email:
           type: string
           title: Email
@@ -70,48 +67,21 @@ components:
         first_name:
           type: string
           title: First Name
-        hashed_password:
-          type: string
-          title: Hashed Password
-        is_active:
-          type: boolean
-          title: Is Active
-          default: true
-        is_staff:
-          type: boolean
-          title: Is Staff
-          default: false
-        is_superuser:
-          type: boolean
-          title: Is Superuser
-          default: false
-        last_login:
-          anyOf:
-            - type: integer
-            - type: 'null'
-          title: Last Login
         last_name:
           type: string
           title: Last Name
-        updated_at:
-          anyOf:
-            - type: integer
-            - type: 'null'
-          title: Updated At
-        user_id:
+        password:
           type: string
-          title: User Id
+          title: Password
         username:
           type: string
           title: Username
       required:
-        - user_id
         - username
         - email
-        - hashed_password
+        - password
         - first_name
         - last_name
-        - created_at
     ValidationError:
       type: object
       title: ValidationError
