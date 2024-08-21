@@ -5,6 +5,8 @@ import uuid
 
 import jwt
 
+from smart_cart.utils.constants import DATETIME_NOW, DATETIME_NOW_TIMESTAMP
+
 
 def generate_jwt_token():
     token = jwt.encode(
@@ -13,8 +15,8 @@ def generate_jwt_token():
             "user_id": "user123",
             "username": "John Doe",
             "email": "john.doe@example.com",
-            "created_at": int(datetime.datetime.now().timestamp()),
-            "expires_at": int((datetime.datetime.now() + datetime.timedelta(days=1)).timestamp()),
+            "created_at": DATETIME_NOW_TIMESTAMP,
+            "expires_at": int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp()),
         },
         headers={
             "alg": "HS256",

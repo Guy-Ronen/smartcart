@@ -13,6 +13,28 @@ paths:
               schema: {}
           description: Successful Response
       summary: Root
+  /api/v1/signup:
+    post:
+      operationId: signup_api_v1_signup_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSignUp'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Signup
   /health:
     get:
       operationId: health_health_get
@@ -23,3 +45,61 @@ paths:
               schema: {}
           description: Successful Response
       summary: Health
+components:
+  schemas:
+    HTTPValidationError:
+      type: object
+      title: HTTPValidationError
+      properties:
+        detail:
+          type: array
+          title: Detail
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    UserSignUp:
+      type: object
+      title: UserSignUp
+      properties:
+        email:
+          type: string
+          title: Email
+          format: email
+        first_name:
+          type: string
+          title: First Name
+        last_name:
+          type: string
+          title: Last Name
+        password:
+          type: string
+          title: Password
+        username:
+          type: string
+          title: Username
+      required:
+        - username
+        - email
+        - password
+        - first_name
+        - last_name
+    ValidationError:
+      type: object
+      title: ValidationError
+      properties:
+        loc:
+          type: array
+          title: Location
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      required:
+        - loc
+        - msg
+        - type
