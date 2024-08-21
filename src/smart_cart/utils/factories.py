@@ -8,12 +8,12 @@ from smart_cart.utils.constants import DATETIME_NOW, DATETIME_NOW_TIMESTAMP
 
 
 def token_payload_factory(
-    token_id: str = None,
+    token_id: Optional[str] = None,
     user_id: str = "user123",
     username: str = "John Doe",
     email: str = "john.doe@example.com",
-    created_at: int = None,
-    expires_at: int = None,
+    created_at: Optional[int] = None,
+    expires_at: Optional[int] = None,
 ):
     token_id = token_id or str(uuid.uuid4())
     created_at = created_at or DATETIME_NOW_TIMESTAMP
