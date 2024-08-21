@@ -1,4 +1,3 @@
-import datetime
 from typing import Optional
 
 import jwt
@@ -7,7 +6,7 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from smart_cart.models.token import TokenPayload
-from smart_cart.utils.constants import WHITELISTED_ENDPOINTS
+from smart_cart.utils.constants import DATETIME_NOW_TIMESTAMP, WHITELISTED_ENDPOINTS
 from smart_cart.utils.settings import settings
 
 
@@ -52,6 +51,6 @@ class TokenMiddleware(BaseHTTPMiddleware):
     def check_user_data(self, request: Request) -> bool:
         user: TokenPayload = request.state.user
 
-        if user.expires_at < int(datetime.datetime.now(datetime.UTC).timestamp()):
+        if user.expires_at < DATETIME_NOW_TIMESTAMP:
             return False
         return True
