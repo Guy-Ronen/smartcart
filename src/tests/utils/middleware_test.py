@@ -55,7 +55,7 @@ def test_access_non_whitelisted_endpoint_with_invalid_token():
 
 def test_access_non_whitelisted_endpoint_with_valid_token_but_check_user_data_false():
     expired_token = jwt.encode(
-        token_payload_factory(expires_at=0).model_dump(),
+        token_payload_factory(expires_at=1).model_dump(),
         "local key",
         algorithm="HS256",
     )
