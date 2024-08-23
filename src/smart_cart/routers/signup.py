@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 @router.post("/signup", status_code=status.HTTP_201_CREATED)
-async def signup(user_signup: UserSignUp):
+def signup(user_signup: UserSignUp):
     existing_user = UserRepository.get_user_by_email(user_signup.email)
     if existing_user:
         raise HTTPException(
