@@ -46,6 +46,7 @@ def test_update_user(user_repository):
 
     assert updated_user.username == "new_username"
 
+
 def test_login_user(user_repository):
     user = user_factory(is_active=False, last_login=None)
 
