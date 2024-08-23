@@ -3,14 +3,6 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr
 
 
-class UserSignUp(BaseModel):
-    username: str
-    email: EmailStr
-    password: str
-    first_name: str
-    last_name: str
-
-
 class User(BaseModel):
     user_id: str
     username: str
@@ -41,3 +33,16 @@ class User(BaseModel):
             is_superuser=item["is_superuser"],
             is_staff=item["is_staff"],
         )
+
+
+class UserSignUp(BaseModel):
+    username: str
+    email: EmailStr
+    password: str
+    first_name: str
+    last_name: str
+
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
