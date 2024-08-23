@@ -1,3 +1,5 @@
+import jwt
+from smart_cart.utils.settings import settings
 from smart_cart.utils.auth import hash_password
 from smart_cart.utils.factories import user_factory, user_login_factory
 
@@ -33,3 +35,29 @@ def test_user_login_should_return_access_token(client, user_repository):
     response = client.post("/api/v1/login", json=user_login.model_dump())
 
     assert response.status_code == 200
+    assert response.json() == {
+        "access_token": response.json()["access_token"],
+        "token_type": "bearer",
+        "user": {
+            "user_id": user.user_id,
+            "username": user.username,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "is_active": True,
+        },
+    }
+
+    token_payload = jwt.decode(response.json()["access_token"], settings.token_payload_secret_key, algorithms=["HS256"])
+
+    assert token_payload["user_id"] == user.user_id
+    assert token_payload["username"] == user.username
+    assert token_payload["email"] == user.email
+    assert token_payload["expires_at"]
+    assert token_payload["created_at"]
+    assert token_payload["expires_at"] > token_payload["created_at"]
+
+    logged_in_user = user_repository.get_user(user.user_id)
+
+    assert logged_in_user.last_login
+    assert logged_in_user.is_active
