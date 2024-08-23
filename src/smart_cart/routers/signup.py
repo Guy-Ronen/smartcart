@@ -38,4 +38,15 @@ def signup(user_signup: UserSignUp):
 
     access_token = create_access_token(user)
 
-    return {"access_token": access_token, "user": user.model_dump()}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "user_id": user.user_id,
+            "username": user.username,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "is_active": user.is_active,
+        },
+    }
