@@ -13,6 +13,35 @@ paths:
               schema: {}
           description: Successful Response
       summary: Root
+  /api/v1/login:
+    post:
+      operationId: login_api_v1_login_post
+      parameters:
+        - name: status_code
+          in: query
+          required: false
+          schema:
+            default: 200
+            title: Status Code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Login
   /api/v1/signup:
     post:
       operationId: signup_api_v1_signup_post
@@ -56,6 +85,20 @@ components:
           title: Detail
           items:
             $ref: '#/components/schemas/ValidationError'
+    UserLogin:
+      type: object
+      title: UserLogin
+      properties:
+        email:
+          format: email
+          type: string
+          title: Email
+        password:
+          type: string
+          title: Password
+      required:
+        - email
+        - password
     UserSignUp:
       type: object
       title: UserSignUp
