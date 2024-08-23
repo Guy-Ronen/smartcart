@@ -57,7 +57,7 @@ def user_factory(
     created_at: Optional[int] = None,
     updated_at: Optional[int] = None,
     last_login: Optional[int] = None,
-    is_active: bool = True,
+    is_active: bool = False,
     is_superuser: bool = False,
     is_staff: bool = False,
 ):
