@@ -11,7 +11,6 @@ from smart_cart.utils.constants import DATETIME_NOW, DATETIME_NOW_TIMESTAMP
 def token_payload_factory(
     token_id: Optional[str] = None,
     user_id: str = "user123",
-    username: str = "John Doe",
     email: str = "john.doe@example.com",
     created_at: Optional[int] = None,
     expires_at: Optional[int] = None,
@@ -23,7 +22,6 @@ def token_payload_factory(
     return TokenPayload(
         token_id=token_id,
         user_id=user_id,
-        username=username,
         email=email,
         created_at=created_at,
         expires_at=expires_at,
@@ -31,7 +29,6 @@ def token_payload_factory(
 
 
 def user_signup_factory(
-    username: str = "john_doe",
     email: Optional[str] = None,
     password: str = "password",
     first_name: str = "John",
@@ -39,7 +36,6 @@ def user_signup_factory(
 ):
     email = email or f"user_{uuid.uuid4()}@example.com"
     return UserSignUp(
-        username=username,
         email=email,
         password=password,
         first_name=first_name,
@@ -49,7 +45,6 @@ def user_signup_factory(
 
 def user_factory(
     user_id: Optional[str] = None,
-    username: str = "john_doe",
     email: Optional[str] = None,
     hashed_password: Optional[str] = None,
     first_name: str = "John",
@@ -68,7 +63,6 @@ def user_factory(
 
     return User(
         user_id=user_id,
-        username=username,
         email=email,
         hashed_password=hashed_password,
         first_name=first_name,

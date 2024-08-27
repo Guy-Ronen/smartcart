@@ -13,7 +13,6 @@ def generate_jwt_token():
         payload={
             "token_id": str(uuid.uuid4()),
             "user_id": "user123",
-            "username": "John Doe",
             "email": "john.doe@example.com",
             "created_at": DATETIME_NOW_TIMESTAMP,
             "expires_at": int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp()),

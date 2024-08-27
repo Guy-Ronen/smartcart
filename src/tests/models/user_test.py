@@ -17,7 +17,6 @@ def test_user():
     user_schema = User(**user)
 
     assert user_schema.user_id == user["user_id"]
-    assert user_schema.username == user["username"]
     assert user_schema.email == user["email"]
     assert user_schema.hashed_password == user["hashed_password"]
     assert user_schema.first_name == user["first_name"]
@@ -40,7 +39,6 @@ def test_user():
     "field, invalid_value",
     [
         ("user_id", 123),
-        ("username", ""),
         ("email", "invalid_email"),
         ("hashed_password", ""),
         ("first_name", ""),
@@ -78,7 +76,6 @@ def test_user_sign_up():
 
     user_sign_up_schema = UserSignUp(**user_sign_up)
 
-    assert user_sign_up_schema.username == user_sign_up["username"]
     assert user_sign_up_schema.email == user_sign_up["email"]
     assert user_sign_up_schema.password == user_sign_up["password"]
     assert user_sign_up_schema.first_name == user_sign_up["first_name"]
@@ -88,7 +85,6 @@ def test_user_sign_up():
 @pytest.mark.parametrize(
     "field, invalid_value",
     [
-        ("username", ""),
         ("email", "invalid_email"),
         ("password", ""),
         ("first_name", ""),

@@ -30,7 +30,6 @@ def test_signup_should_return_201(client):
         **jwt.decode(response.json()["access_token"], settings.token_payload_secret_key, algorithms=["HS256"])
     )
 
-    assert token_payload.username == user_sign_up.username
     assert token_payload.email == user_sign_up.email
     assert token_payload.user_id
     assert token_payload.created_at
@@ -38,7 +37,6 @@ def test_signup_should_return_201(client):
     assert token_payload.expires_at > token_payload.created_at
 
     assert response.json()["user"]["user_id"]
-    assert response.json()["user"]["username"] == user_sign_up.username
     assert response.json()["user"]["email"] == user_sign_up.email
     assert response.json()["user"]["first_name"] == user_sign_up.first_name
     assert response.json()["user"]["last_name"] == user_sign_up.last_name

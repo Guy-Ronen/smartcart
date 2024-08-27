@@ -5,7 +5,6 @@ from pydantic import BaseModel, EmailStr
 
 class User(BaseModel):
     user_id: str
-    username: str
     email: EmailStr
     hashed_password: str
     first_name: str
@@ -21,7 +20,6 @@ class User(BaseModel):
     def from_dynamoItem(cls, item: dict) -> "User":
         return cls(
             user_id=item["user_id"],
-            username=item["username"],
             email=item["email"],
             hashed_password=item["hashed_password"],
             first_name=item["first_name"],
@@ -36,7 +34,6 @@ class User(BaseModel):
 
 
 class UserSignUp(BaseModel):
-    username: str
     email: EmailStr
     password: str
     first_name: str
