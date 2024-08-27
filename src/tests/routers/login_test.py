@@ -48,7 +48,9 @@ def test_user_login_should_return_access_token(client, user_repository):
         },
     }
 
-    token_payload = jwt.decode(response.json()["access_token"], settings.token_payload_secret_key, algorithms=["HS256"])
+    token_payload = jwt.decode(
+        response.json()["access_token"], settings.token_payload_secret_key, algorithms=[settings.hashing_algorithm]
+    )
 
     assert token_payload["user_id"] == user.user_id
     assert token_payload["email"] == user.email

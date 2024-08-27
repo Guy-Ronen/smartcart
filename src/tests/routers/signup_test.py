@@ -27,7 +27,9 @@ def test_signup_should_return_201(client):
     assert "user" in response.json()
 
     token_payload = TokenPayload(
-        **jwt.decode(response.json()["access_token"], settings.token_payload_secret_key, algorithms=["HS256"])
+        **jwt.decode(
+            response.json()["access_token"], settings.token_payload_secret_key, algorithms=[settings.hashing_algorithm]
+        )
     )
 
     assert token_payload.email == user_sign_up.email

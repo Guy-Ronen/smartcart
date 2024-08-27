@@ -27,6 +27,8 @@ def create_access_token(user: User) -> str:
         expires_at=int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp()),
     )
 
-    encoded_jwt = jwt.encode(token_payload.model_dump(), settings.token_payload_secret_key, algorithm="HS256")
+    encoded_jwt = jwt.encode(
+        token_payload.model_dump(), settings.token_payload_secret_key, algorithm=settings.hashing_algorithm
+    )
 
     return encoded_jwt
