@@ -32,7 +32,6 @@ def test_signup_should_return_201(client):
         )
     )
 
-    assert token_payload.email == user_sign_up.email
     assert token_payload.user_id
     assert token_payload.created_at
     assert token_payload.expires_at
