@@ -15,7 +15,7 @@ def valid_token():
     return jwt.encode(
         token_payload_factory().model_dump(),
         "local key",
-        algorithm="HS256",
+        "HS256",
     )
 
 
