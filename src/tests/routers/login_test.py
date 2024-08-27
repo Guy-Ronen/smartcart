@@ -41,7 +41,6 @@ def test_user_login_should_return_access_token(client, user_repository):
         "token_type": "bearer",
         "user": {
             "user_id": user.user_id,
-            "username": user.username,
             "email": user.email,
             "first_name": user.first_name,
             "last_name": user.last_name,
@@ -52,7 +51,6 @@ def test_user_login_should_return_access_token(client, user_repository):
     token_payload = jwt.decode(response.json()["access_token"], settings.token_payload_secret_key, algorithms=["HS256"])
 
     assert token_payload["user_id"] == user.user_id
-    assert token_payload["username"] == user.username
     assert token_payload["email"] == user.email
     assert token_payload["expires_at"]
     assert token_payload["created_at"]

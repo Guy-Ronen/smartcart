@@ -23,7 +23,6 @@ def signup(user_signup: UserSignUp):
 
     user = User(
         user_id=str(uuid.uuid4()),
-        username=user_signup.username,
         email=user_signup.email,
         hashed_password=hashed_password,
         first_name=user_signup.first_name,
@@ -43,7 +42,6 @@ def signup(user_signup: UserSignUp):
         "token_type": "bearer",
         "user": {
             "user_id": user.user_id,
-            "username": user.username,
             "email": user.email,
             "first_name": user.first_name,
             "last_name": user.last_name,

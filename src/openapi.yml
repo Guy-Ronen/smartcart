@@ -116,11 +116,7 @@ components:
         password:
           type: string
           title: Password
-        username:
-          type: string
-          title: Username
       required:
-        - username
         - email
         - password
         - first_name

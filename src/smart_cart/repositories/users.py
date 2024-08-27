@@ -28,7 +28,6 @@ class User(Model):
         host = settings.host
 
     user_id = UnicodeAttribute(hash_key=True)
-    username = UnicodeAttribute()
     email = UnicodeAttribute()
     email_index = EmailIndex()
     hashed_password = UnicodeAttribute()
@@ -45,7 +44,6 @@ class User(Model):
     def from_entity(cls, model: UserModel):
         return cls(
             user_id=model.user_id,
-            username=model.username,
             email=model.email,
             hashed_password=model.hashed_password,
             first_name=model.first_name,

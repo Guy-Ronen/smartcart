@@ -11,7 +11,6 @@ def test_token_payload():
 
     assert token_payload.token_id == token["token_id"]
     assert token_payload.user_id == token["user_id"]
-    assert token_payload.username == token["username"]
     assert token_payload.email == token["email"]
     assert token_payload.created_at == token["created_at"]
     assert token_payload.expires_at == token["expires_at"]
