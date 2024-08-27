@@ -21,8 +21,7 @@ def verify_password(password: str, hashed_password: str) -> bool:
 def create_access_token(user: User) -> str:
     token_payload = TokenPayload(
         jti=str(uuid.uuid4()),
-        user_id=user.user_id,
-        email=user.email,
+        sub=user.user_id,
         created_at=DATETIME_NOW_TIMESTAMP,
         expires_at=int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp()),
     )

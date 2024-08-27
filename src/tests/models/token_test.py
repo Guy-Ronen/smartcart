@@ -10,7 +10,7 @@ def test_token_payload():
     token_payload = TokenPayload(**token)
 
     assert token_payload.jti == token["jti"]
-    assert token_payload.user_id == token["user_id"]
+    assert token_payload.sub == token["sub"]
     assert token_payload.created_at == token["created_at"]
     assert token_payload.expires_at == token["expires_at"]
 

@@ -52,7 +52,7 @@ def test_user_login_should_return_access_token(client, user_repository):
         response.json()["access_token"], settings.token_payload_secret_key, algorithms=[settings.hashing_algorithm]
     )
 
-    assert token_payload["user_id"] == user.user_id
+    assert token_payload["sub"] == user.user_id
     assert token_payload["expires_at"]
     assert token_payload["created_at"]
     assert token_payload["expires_at"] > token_payload["created_at"]

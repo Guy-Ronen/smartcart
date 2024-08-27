@@ -10,7 +10,7 @@ from smart_cart.utils.constants import DATETIME_NOW, DATETIME_NOW_TIMESTAMP
 
 def token_payload_factory(
     jti: Optional[str] = None,
-    user_id: str = "user123",
+    sub: str = "user123",
     email: str = "john.doe@example.com",
     created_at: Optional[int] = None,
     expires_at: Optional[int] = None,
@@ -21,7 +21,7 @@ def token_payload_factory(
 
     return TokenPayload(
         jti=jti,
-        user_id=user_id,
+        sub=sub,
         email=email,
         created_at=created_at,
         expires_at=expires_at,
