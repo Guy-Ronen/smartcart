@@ -38,13 +38,13 @@ def test_update_user(user_repository):
     user = user_factory()
     user_repository.create_user(user)
 
-    user.username = "new_username"
+    user.email = "new.email@example.com"
 
     user_repository.update_user(user)
 
     updated_user = user_repository.get_user(user.user_id)
 
-    assert updated_user.username == "new_username"
+    assert updated_user.email == "new.email@example.com"
 
 
 def test_login_user(user_repository):
