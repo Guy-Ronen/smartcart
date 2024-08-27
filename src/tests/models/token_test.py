@@ -11,7 +11,7 @@ def test_token_payload():
 
     assert token_payload.jti == token["jti"]
     assert token_payload.sub == token["sub"]
-    assert token_payload.created_at == token["created_at"]
+    assert token_payload.iat == token["iat"]
     assert token_payload.expires_at == token["expires_at"]
 
     assert uuid.UUID(token_payload.jti)

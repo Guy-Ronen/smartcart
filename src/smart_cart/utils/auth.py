@@ -22,7 +22,7 @@ def create_access_token(user: User) -> str:
     token_payload = TokenPayload(
         jti=str(uuid.uuid4()),
         sub=user.user_id,
-        created_at=DATETIME_NOW_TIMESTAMP,
+        iat=DATETIME_NOW_TIMESTAMP,
         expires_at=int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp()),
     )
 

@@ -33,9 +33,9 @@ def test_signup_should_return_201(client):
     )
 
     assert token_payload.sub
-    assert token_payload.created_at
+    assert token_payload.iat
     assert token_payload.expires_at
-    assert token_payload.expires_at > token_payload.created_at
+    assert token_payload.expires_at > token_payload.iat
 
     assert response.json()["user"]["user_id"]
     assert response.json()["user"]["email"] == user_sign_up.email
