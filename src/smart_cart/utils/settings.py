@@ -6,6 +6,7 @@ from pydantic_settings import BaseSettings
 class CommonSettings(BaseSettings):
     environment: str = os.getenv("ENVIRONMENT", "unknown-environment")
     token_payload_secret_key: str = ""
+    hashing_algorithm: str = os.getenv("HASHING_ALGORITHM", "HS256")
     table_name: str = os.getenv("USERS_TABLE_NAME", "users")
     region: str = os.getenv("AWS_DEFAULT_REGION", "us-east-1")
     aws_access_key_id: str = os.getenv("AWS_ACCESS_KEY_ID", "")
@@ -28,6 +29,7 @@ class DeployedSettings(CommonSettings):
 
 class LocalSettings(CommonSettings):
     token_payload_secret_key: str = "local key"
+    hashing_algorithm: str = "HS256"
 
 
 def get_settings() -> CommonSettings:
