@@ -14,8 +14,6 @@ services:
       - "1000:1000"
     volumes:
       - .:/app
-    env_file:
-      - env_files/local.env
     depends_on:
       dynamodb-local-users:
         condition: service_completed_successfully
