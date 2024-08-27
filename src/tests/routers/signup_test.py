@@ -1,7 +1,6 @@
 import jwt
 
 from smart_cart.models.token import TokenPayload
-from smart_cart.utils.auth import verify_password
 from smart_cart.utils.factories import user_factory, user_signup_factory
 from smart_cart.utils.settings import settings
 
@@ -44,10 +43,3 @@ def test_signup_should_return_201(client):
     assert response.json()["user"]["first_name"] == user_sign_up.first_name
     assert response.json()["user"]["last_name"] == user_sign_up.last_name
     assert response.json()["user"]["is_active"]
-    assert not response.json()["user"]["is_superuser"]
-    assert not response.json()["user"]["is_staff"]
-    assert response.json()["user"]["created_at"]
-    assert not response.json()["user"]["updated_at"]
-    assert not response.json()["user"]["last_login"]
-
-    assert verify_password(user_sign_up.password, response.json()["user"]["hashed_password"])

@@ -32,3 +32,28 @@ def test_get_user_by_email(user_repository):
 def test_get_user_by_email_not_found(user_repository):
     result = user_repository.get_user_by_email("nonexistent.email@example.com")
     assert result is None
+
+
+def test_update_user(user_repository):
+    user = user_factory()
+    user_repository.create_user(user)
+
+    user.username = "new_username"
+
+    user_repository.update_user(user)
+
+    updated_user = user_repository.get_user(user.user_id)
+
+    assert updated_user.username == "new_username"
+
+
+def test_login_user(user_repository):
+    user = user_factory(is_active=False, last_login=None)
+
+    user_repository.create_user(user)
+    user_repository.login_user(user)
+
+    updated_user = user_repository.get_user(user.user_id)
+
+    assert updated_user.is_active
+    assert updated_user.last_login

@@ -3,7 +3,8 @@ import uuid
 from typing import Optional
 
 from smart_cart.models.token import TokenPayload
-from smart_cart.models.user import User, UserSignUp
+from smart_cart.models.user import User, UserLogin, UserSignUp
+from smart_cart.utils.auth import hash_password
 from smart_cart.utils.constants import DATETIME_NOW, DATETIME_NOW_TIMESTAMP
 
 
@@ -50,19 +51,20 @@ def user_factory(
     user_id: Optional[str] = None,
     username: str = "john_doe",
     email: Optional[str] = None,
-    hashed_password: str = "hashed_password",
+    hashed_password: Optional[str] = None,
     first_name: str = "John",
     last_name: str = "Doe",
     created_at: Optional[int] = None,
     updated_at: Optional[int] = None,
     last_login: Optional[int] = None,
-    is_active: bool = True,
+    is_active: bool = False,
     is_superuser: bool = False,
     is_staff: bool = False,
 ):
     user_id = user_id or str(uuid.uuid4())
     email = email or f"user_{uuid.uuid4()}@example.com"
     created_at = created_at or DATETIME_NOW_TIMESTAMP
+    hashed_password = hashed_password or hash_password("password")
 
     return User(
         user_id=user_id,
@@ -78,3 +80,9 @@ def user_factory(
         is_superuser=is_superuser,
         is_staff=is_staff,
     )
+
+
+def user_login_factory(email: Optional[str] = None, password: str = "password"):
+    email = email or f"user_{uuid.uuid4()}@example.com"
+
+    return UserLogin(email=email, password=password)

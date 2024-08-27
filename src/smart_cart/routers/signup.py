@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 @router.post("/signup", status_code=status.HTTP_201_CREATED)
-async def signup(user_signup: UserSignUp):
+def signup(user_signup: UserSignUp):
     existing_user = UserRepository.get_user_by_email(user_signup.email)
     if existing_user:
         raise HTTPException(
@@ -38,4 +38,15 @@ async def signup(user_signup: UserSignUp):
 
     access_token = create_access_token(user)
 
-    return {"access_token": access_token, "user": user.model_dump()}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "user_id": user.user_id,
+            "username": user.username,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "is_active": user.is_active,
+        },
+    }

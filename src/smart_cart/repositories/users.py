@@ -4,6 +4,7 @@ from pynamodb.indexes import AllProjection, GlobalSecondaryIndex
 from pynamodb.models import Model
 
 from smart_cart.models.user import User as UserModel
+from smart_cart.utils.constants import DATETIME_NOW_TIMESTAMP
 from smart_cart.utils.settings import settings
 
 
@@ -87,3 +88,15 @@ class UserRepository(BaseModel):
         except StopIteration:
             return None
         return UserModel.from_dynamoItem(item.to_simple_dict())
+
+    @staticmethod
+    def update_user(user: UserModel):
+        item = User.from_entity(user)
+        item.save()
+
+    @staticmethod
+    def login_user(user: UserModel) -> UserModel:
+        user.last_login = DATETIME_NOW_TIMESTAMP
+        user.is_active = True
+        UserRepository.update_user(user)
+        return user
