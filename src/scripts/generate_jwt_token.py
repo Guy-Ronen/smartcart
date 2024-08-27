@@ -11,7 +11,7 @@ from smart_cart.utils.constants import DATETIME_NOW, DATETIME_NOW_TIMESTAMP
 def generate_jwt_token():
     token = jwt.encode(
         payload={
-            "token_id": str(uuid.uuid4()),
+            "jti": str(uuid.uuid4()),
             "user_id": "user123",
             "email": "john.doe@example.com",
             "created_at": DATETIME_NOW_TIMESTAMP,

@@ -20,7 +20,7 @@ def verify_password(password: str, hashed_password: str) -> bool:
 
 def create_access_token(user: User) -> str:
     token_payload = TokenPayload(
-        token_id=str(uuid.uuid4()),
+        jti=str(uuid.uuid4()),
         user_id=user.user_id,
         email=user.email,
         created_at=DATETIME_NOW_TIMESTAMP,

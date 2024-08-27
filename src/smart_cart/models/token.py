@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class TokenPayload(BaseModel):
-    token_id: str = str(uuid.uuid4())
+    jti: str = str(uuid.uuid4())
     user_id: str
     email: str
     created_at: int
