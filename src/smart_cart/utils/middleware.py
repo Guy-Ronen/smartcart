@@ -18,7 +18,7 @@ class TokenMiddleware(BaseHTTPMiddleware):
                 **jwt.decode(
                     token,
                     settings.token_payload_secret_key,
-                    algorithms=["HS256"],
+                    algorithms=[settings.hashing_algorithm],
                 )
             )
         except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):

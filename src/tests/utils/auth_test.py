@@ -28,7 +28,7 @@ def test_create_access_token():
 
     token = create_access_token(user)
 
-    decoded_token = jwt.decode(token, settings.token_payload_secret_key, algorithms=["HS256"])
+    decoded_token = jwt.decode(token, settings.token_payload_secret_key, algorithms=[settings.hashing_algorithm])
 
     assert isinstance(UUID(decoded_token["token_id"]), UUID)
     assert decoded_token["user_id"] == user.user_id
