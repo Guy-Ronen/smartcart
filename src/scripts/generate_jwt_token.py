@@ -14,7 +14,7 @@ def generate_jwt_token():
             "jti": str(uuid.uuid4()),
             "user_id": "user123",
             "email": "john.doe@example.com",
-            "created_at": DATETIME_NOW_TIMESTAMP,
+            "iat": DATETIME_NOW_TIMESTAMP,
             "expires_at": int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp()),
         },
         headers={
