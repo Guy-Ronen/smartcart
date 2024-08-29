@@ -12,17 +12,17 @@ def token_payload_factory(
     jti: Optional[str] = None,
     sub: str = "user123",
     iat: Optional[int] = None,
-    expires_at: Optional[int] = None,
+    exp: Optional[int] = None,
 ):
     jti = jti or str(uuid.uuid4())
     iat = iat or DATETIME_NOW_TIMESTAMP
-    expires_at = expires_at or int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp())
+    exp = exp or int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp())
 
     return TokenPayload(
         jti=jti,
         sub=sub,
         iat=iat,
-        expires_at=expires_at,
+        exp=exp,
     )
 
 

@@ -53,9 +53,9 @@ def test_user_login_should_return_access_token(client, user_repository):
     )
 
     assert token_payload["sub"] == user.user_id
-    assert token_payload["expires_at"]
+    assert token_payload["exp"]
     assert token_payload["iat"]
-    assert token_payload["expires_at"] > token_payload["iat"]
+    assert token_payload["exp"] > token_payload["iat"]
 
     logged_in_user = user_repository.get_user(user.user_id)
 

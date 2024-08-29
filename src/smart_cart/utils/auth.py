@@ -23,7 +23,7 @@ def create_access_token(user: User) -> str:
         jti=str(uuid.uuid4()),
         sub=user.user_id,
         iat=DATETIME_NOW_TIMESTAMP,
-        expires_at=int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp()),
+        exp=int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp()),
     )
 
     encoded_jwt = jwt.encode(

@@ -15,7 +15,7 @@ def generate_jwt_token():
             "user_id": "user123",
             "email": "john.doe@example.com",
             "iat": DATETIME_NOW_TIMESTAMP,
-            "expires_at": int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp()),
+            "exp": int((DATETIME_NOW + datetime.timedelta(days=1)).timestamp()),
         },
         headers={
             "alg": "HS256",

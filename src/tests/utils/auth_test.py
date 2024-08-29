@@ -33,4 +33,4 @@ def test_create_access_token():
     assert isinstance(UUID(decoded_token["jti"]), UUID)
     assert decoded_token["sub"] == user.user_id
     assert decoded_token["iat"] is not None
-    assert decoded_token["expires_at"] is not None
+    assert decoded_token["exp"] is not None
