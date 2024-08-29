@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+from unittest.mock import patch
 
 import jwt
 import pytest
@@ -6,6 +7,7 @@ from fastapi.testclient import TestClient
 
 from smart_cart.main import app
 from smart_cart.utils.factories import token_payload_factory
+from smart_cart.utils.middleware import TokenMiddleware
 
 client = TestClient(app)
 
@@ -53,17 +55,25 @@ def test_access_non_whitelisted_endpoint_with_invalid_token():
         assert response.json() == {"detail": "Unauthorized"}
 
 
-def test_access_non_whitelisted_endpoint_with_valid_token_but_check_user_data_false():
+def test_access_non_whitelisted_endpoint_with_expired_token():
     expired_token = jwt.encode(
-        token_payload_factory(expires_at=1).model_dump(),
+        token_payload_factory(exp=1).model_dump(),
         "local key",
         algorithm="HS256",
     )
 
-    with pytest.raises(Exception) as e:
-        with token_header_context(expired_token) as c:
-            c.get("/")
-    assert str(e.value) == "403: Forbidden"
+    with token_header_context(expired_token) as c:
+        response = c.get("/")
+        assert response.status_code == 401
+        assert response.json() == {"detail": "Unauthorized"}
+
+
+def test_access_non_whitelisted_endpoint_with_valid_token_but_check_user_data_false(valid_token):
+    with patch.object(TokenMiddleware, "check_user_data", return_value=False):
+        with pytest.raises(Exception) as e:
+            with token_header_context(valid_token) as c:
+                c.get("/")
+        assert str(e.value) == "403: Forbidden"
 
 
 def test_access_non_whitelisted_endpoint_with_valid_token(valid_token):
