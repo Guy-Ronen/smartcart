@@ -7,7 +7,8 @@ class CommonSettings(BaseSettings):
     environment: str = os.getenv("ENVIRONMENT", "unknown-environment")
     token_payload_secret_key: str = ""
     hashing_algorithm: str = os.getenv("HASHING_ALGORITHM", "HS256")
-    table_name: str = os.getenv("USERS_TABLE_NAME", "users")
+    users_table_name: str = os.getenv("USERS_TABLE_NAME", "users")
+    receipts_table_name: str = os.getenv("RECEIPTS_TABLE_NAME", "receipts")
     region: str = os.getenv("AWS_DEFAULT_REGION", "us-east-1")
     aws_access_key_id: str = os.getenv("AWS_ACCESS_KEY_ID", "")
     aws_secret_access_key: str = os.getenv("AWS_SECRET_ACCESS_KEY", "")

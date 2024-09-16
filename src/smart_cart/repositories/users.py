@@ -20,7 +20,7 @@ class EmailIndex(GlobalSecondaryIndex):
 
 class User(Model):
     class Meta:
-        table_name = settings.table_name
+        table_name = settings.users_table_name
         region = settings.region
         aws_access_key_id = settings.aws_access_key_id
         aws_secret_access_key = settings.aws_secret_access_key
