@@ -3,9 +3,13 @@ import uuid
 import pytest
 from pydantic import ValidationError
 
-from smart_cart.models.user import User, UserSignUp
+from smart_cart.models.user import User, UserLogin, UserSignUp
 from smart_cart.utils.auth import hash_password, verify_password
-from smart_cart.utils.factories import user_factory, user_signup_factory
+from smart_cart.utils.factories import (
+    user_factory,
+    user_login_factory,
+    user_signup_factory,
+)
 
 # User #
 
@@ -94,3 +98,29 @@ def test_user_sign_up():
 def test_create_user_sign_up_invalid(field, invalid_value):
     with pytest.raises(ValidationError):
         UserSignUp(**{field: invalid_value})
+
+
+# UserLogin #
+
+
+def test_user_login():
+    user_login = user_login_factory().model_dump()
+
+    user_login_schema = UserLogin(**user_login)
+
+    assert user_login_schema.email == user_login["email"]
+    assert user_login_schema.password == user_login["password"]
+
+    assert user_login_schema.model_dump() == user_login
+
+
+@pytest.mark.parametrize(
+    "field, invalid_value",
+    [
+        ("email", "invalid_email"),
+        ("password", ""),
+    ],
+)
+def test_create_user_login_invalid(field, invalid_value):
+    with pytest.raises(ValidationError):
+        UserLogin(**{field: invalid_value})

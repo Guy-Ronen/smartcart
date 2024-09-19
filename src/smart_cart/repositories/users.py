@@ -20,7 +20,7 @@ class EmailIndex(GlobalSecondaryIndex):
 
 class User(Model):
     class Meta:
-        table_name = settings.table_name
+        table_name = settings.users_table_name
         region = settings.region
         aws_access_key_id = settings.aws_access_key_id
         aws_secret_access_key = settings.aws_secret_access_key
@@ -41,7 +41,7 @@ class User(Model):
     is_staff = UnicodeAttribute()
 
     @classmethod
-    def from_entity(cls, model: UserModel):
+    def from_model(cls, model: UserModel):
         return cls(
             user_id=model.user_id,
             email=model.email,
@@ -67,7 +67,7 @@ class UserRepository(BaseModel):
 
     @staticmethod
     def create_user(user: UserModel):
-        item = User.from_entity(user)
+        item = User.from_model(user)
         item.save()
 
     @staticmethod
@@ -89,7 +89,7 @@ class UserRepository(BaseModel):
 
     @staticmethod
     def update_user(user: UserModel):
-        item = User.from_entity(user)
+        item = User.from_model(user)
         item.save()
 
     @staticmethod
