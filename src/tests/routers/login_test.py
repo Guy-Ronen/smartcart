@@ -1,7 +1,7 @@
 import jwt
 
 from smart_cart.utils.auth import hash_password
-from smart_cart.utils.factories import user_factory, user_login_factory
+from smart_cart.factories.user import user_factory, user_login_factory
 from smart_cart.utils.settings import settings
 
 

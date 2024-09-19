@@ -1,4 +1,4 @@
-from smart_cart.utils.factories import user_factory
+from smart_cart.factories.user import user_factory
 
 
 def test_create_and_get_user(user_repository):
