@@ -8,8 +8,22 @@ from smart_cart.factories.user import (
     user_login_factory,
     user_signup_factory,
 )
-from smart_cart.models.user import User, UserLogin, UserSignUp
+from smart_cart.models.user import (
+    User,
+    UserLogin,
+    UserProfileResponse,
+    UserResponse,
+    UserSignUp,
+)
 from smart_cart.utils.auth import hash_password, verify_password
+
+
+def compare_schema_and_model_dump(schema, model_dump):
+    for key, value in model_dump.items():
+        assert getattr(schema, key) == value
+
+    assert schema.model_dump() == model_dump
+
 
 # User #
 
@@ -20,17 +34,7 @@ def test_user():
 
     user_schema = User(**user)
 
-    assert user_schema.user_id == user["user_id"]
-    assert user_schema.email == user["email"]
-    assert user_schema.hashed_password == user["hashed_password"]
-    assert user_schema.first_name == user["first_name"]
-    assert user_schema.last_name == user["last_name"]
-    assert user_schema.created_at == user["created_at"]
-    assert user_schema.updated_at == user["updated_at"]
-    assert user_schema.last_login == user["last_login"]
-    assert user_schema.is_active == user["is_active"]
-    assert user_schema.is_superuser == user["is_superuser"]
-    assert user_schema.is_staff == user["is_staff"]
+    compare_schema_and_model_dump(user_schema, user)
 
     assert uuid.UUID(user_schema.user_id)
 
@@ -80,10 +84,7 @@ def test_user_sign_up():
 
     user_sign_up_schema = UserSignUp(**user_sign_up)
 
-    assert user_sign_up_schema.email == user_sign_up["email"]
-    assert user_sign_up_schema.password == user_sign_up["password"]
-    assert user_sign_up_schema.first_name == user_sign_up["first_name"]
-    assert user_sign_up_schema.last_name == user_sign_up["last_name"]
+    compare_schema_and_model_dump(user_sign_up_schema, user_sign_up)
 
 
 @pytest.mark.parametrize(
@@ -108,8 +109,7 @@ def test_user_login():
 
     user_login_schema = UserLogin(**user_login)
 
-    assert user_login_schema.email == user_login["email"]
-    assert user_login_schema.password == user_login["password"]
+    compare_schema_and_model_dump(user_login_schema, user_login)
 
     assert user_login_schema.model_dump() == user_login
 
@@ -124,3 +124,56 @@ def test_user_login():
 def test_create_user_login_invalid(field, invalid_value):
     with pytest.raises(ValidationError):
         UserLogin(**{field: invalid_value})
+
+
+def test_user_profile_response():
+    user = user_factory().model_dump()
+
+    user_profile_response = UserProfileResponse(
+        user_id=user["user_id"],
+        email=user["email"],
+        first_name=user["first_name"],
+        last_name=user["last_name"],
+        is_active=user["is_active"],
+    )
+
+    assert user_profile_response.user_id == user["user_id"]
+    assert user_profile_response.email == user["email"]
+    assert user_profile_response.first_name == user["first_name"]
+    assert user_profile_response.last_name == user["last_name"]
+    assert user_profile_response.is_active == user["is_active"]
+
+
+def test_user_response():
+    user = user_factory().model_dump()
+
+    user_profile_response = UserProfileResponse(
+        user_id=user["user_id"],
+        email=user["email"],
+        first_name=user["first_name"],
+        last_name=user["last_name"],
+        is_active=user["is_active"],
+    )
+
+    user_response = UserResponse(
+        access_token="access_token",
+        token_type="bearer",
+        user=user_profile_response,
+    )
+
+    assert user_response.access_token == "access_token"
+    assert user_response.token_type == "bearer"
+    assert user_response.user == user_profile_response
+
+
+@pytest.mark.parametrize(
+    "field, invalid_value",
+    [
+        ("access_token", ""),
+        ("token_type", ""),
+        ("user", ""),
+    ],
+)
+def test_create_user_response_invalid(field, invalid_value):
+    with pytest.raises(ValidationError):
+        UserResponse(**{field: invalid_value})
