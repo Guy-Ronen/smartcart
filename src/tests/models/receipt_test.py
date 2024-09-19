@@ -3,8 +3,8 @@ import uuid
 import pytest
 from pydantic import ValidationError
 
-from smart_cart.models.receipt import Currency, Item, Market, Receipt
 from smart_cart.factories.receipt import item_factory, receipt_factory
+from smart_cart.models.receipt import Currency, Item, Market, Receipt
 
 # Item #
 

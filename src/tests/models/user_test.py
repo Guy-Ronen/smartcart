@@ -3,13 +3,13 @@ import uuid
 import pytest
 from pydantic import ValidationError
 
-from smart_cart.models.user import User, UserLogin, UserSignUp
-from smart_cart.utils.auth import hash_password, verify_password
 from smart_cart.factories.user import (
     user_factory,
     user_login_factory,
     user_signup_factory,
 )
+from smart_cart.models.user import User, UserLogin, UserSignUp
+from smart_cart.utils.auth import hash_password, verify_password
 
 # User #
 

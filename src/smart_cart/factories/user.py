@@ -1,5 +1,5 @@
-from typing import Optional
 import uuid
+from typing import Optional
 
 from smart_cart.models.user import User, UserLogin, UserSignUp
 from smart_cart.utils.auth import hash_password
