@@ -34,6 +34,7 @@ class Category(enum.Enum):
     FROZEN = "FROZEN"
     OTHER = "OTHER"
 
+
 class Item(BaseModel):
     name: str
     price: float

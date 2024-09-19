@@ -98,7 +98,7 @@ class ReceiptRepository(BaseModel):
         return ReceiptModel.from_dynamoItem(item.to_simple_dict())
 
     @staticmethod
-    def get_receipt_by_user(user_id: str) -> list[ReceiptModel]:
+    def get_receipt_by_user(user_id: str) -> ReceiptModel | None:
         try:
             result = Receipt.user_index.query(user_id)
             item = next(result)
