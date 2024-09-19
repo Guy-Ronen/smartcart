@@ -1,7 +1,7 @@
 import uuid
 
 from smart_cart.models.token import TokenPayload
-from smart_cart.utils.factories import token_payload_factory
+from smart_cart.factories.token import token_payload_factory
 
 
 def test_token_payload():

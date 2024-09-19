@@ -6,7 +6,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from smart_cart.main import app
-from smart_cart.utils.factories import token_payload_factory
+from smart_cart.factories.token import token_payload_factory
 from smart_cart.utils.middleware import TokenMiddleware
 
 client = TestClient(app)
