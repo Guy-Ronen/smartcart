@@ -19,11 +19,27 @@ class Market(enum.Enum):
     PENNY = "PENNY"
     REAL = "REAL"
 
+
+class Category(enum.Enum):
+    FRUITS = "FRUITS"
+    VEGETABLES = "VEGETABLES"
+    MEAT = "MEAT"
+    FISH = "FISH"
+    DAIRY = "DAIRY"
+    BREAD = "BREAD"
+    SWEETS = "SWEETS"
+    DRINKS = "DRINKS"
+    ALCOHOL = "ALCOHOL"
+    CANNED = "CANNED"
+    FROZEN = "FROZEN"
+    OTHER = "OTHER"
+
 class Item(BaseModel):
     name: str
     price: float
     quantity: int
     total: float
+    category: Category
 
 
 class Receipt(BaseModel):
