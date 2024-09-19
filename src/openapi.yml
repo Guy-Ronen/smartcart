@@ -1,3 +1,113 @@
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    UserLogin:
+      properties:
+        email:
+          format: email
+          title: Email
+          type: string
+        password:
+          title: Password
+          type: string
+      required:
+      - email
+      - password
+      title: UserLogin
+      type: object
+    UserProfileResponse:
+      properties:
+        email:
+          format: email
+          title: Email
+          type: string
+        first_name:
+          title: First Name
+          type: string
+        is_active:
+          title: Is Active
+          type: boolean
+        last_name:
+          title: Last Name
+          type: string
+        user_id:
+          title: User Id
+          type: string
+      required:
+      - user_id
+      - email
+      - first_name
+      - last_name
+      - is_active
+      title: UserProfileResponse
+      type: object
+    UserResponse:
+      properties:
+        access_token:
+          title: Access Token
+          type: string
+        token_type:
+          title: Token Type
+          type: string
+        user:
+          $ref: '#/components/schemas/UserProfileResponse'
+      required:
+      - access_token
+      - token_type
+      - user
+      title: UserResponse
+      type: object
+    UserSignUp:
+      properties:
+        email:
+          format: email
+          title: Email
+          type: string
+        first_name:
+          title: First Name
+          type: string
+        last_name:
+          title: Last Name
+          type: string
+        password:
+          title: Password
+          type: string
+      required:
+      - email
+      - password
+      - first_name
+      - last_name
+      title: UserSignUp
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
 info:
   title: FastAPI
   version: 0.1.0
@@ -16,13 +126,6 @@ paths:
   /api/v1/login:
     post:
       operationId: login_api_v1_login_post
-      parameters:
-        - name: status_code
-          in: query
-          required: false
-          schema:
-            default: 200
-            title: Status Code
       requestBody:
         content:
           application/json:
@@ -33,7 +136,8 @@ paths:
         '200':
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/UserResponse'
           description: Successful Response
         '422':
           content:
@@ -55,7 +159,8 @@ paths:
         '201':
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/UserResponse'
           description: Successful Response
         '422':
           content:
@@ -74,71 +179,3 @@ paths:
               schema: {}
           description: Successful Response
       summary: Health
-components:
-  schemas:
-    HTTPValidationError:
-      type: object
-      title: HTTPValidationError
-      properties:
-        detail:
-          type: array
-          title: Detail
-          items:
-            $ref: '#/components/schemas/ValidationError'
-    UserLogin:
-      type: object
-      title: UserLogin
-      properties:
-        email:
-          format: email
-          type: string
-          title: Email
-        password:
-          type: string
-          title: Password
-      required:
-        - email
-        - password
-    UserSignUp:
-      type: object
-      title: UserSignUp
-      properties:
-        email:
-          type: string
-          title: Email
-          format: email
-        first_name:
-          type: string
-          title: First Name
-        last_name:
-          type: string
-          title: Last Name
-        password:
-          type: string
-          title: Password
-      required:
-        - email
-        - password
-        - first_name
-        - last_name
-    ValidationError:
-      type: object
-      title: ValidationError
-      properties:
-        loc:
-          type: array
-          title: Location
-          items:
-            anyOf:
-              - type: string
-              - type: integer
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      required:
-        - loc
-        - msg
-        - type

@@ -43,3 +43,17 @@ class UserSignUp(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
+
+class UserProfileResponse(BaseModel):
+    user_id: str
+    email: EmailStr
+    first_name: str
+    last_name: str
+    is_active: bool
+
+
+class UserResponse(BaseModel):
+    access_token: str
+    token_type: str
+    user: UserProfileResponse

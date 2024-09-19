@@ -10,6 +10,7 @@ services:
       HOST: "http://dynamodb-local:8000"
       USERS_TABLE_NAME: "smart_cart-local-users"
       RECEIPTS_TABLE_NAME: "smart_cart-local-receipts"
+      PYTHONPATH: "/app"
     build: .
     ports:
       - "1000:1000"
