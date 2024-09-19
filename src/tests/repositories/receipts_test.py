@@ -1,6 +1,6 @@
 import uuid
 
-from smart_cart.utils.factories import receipt_factory
+from smart_cart.factories.receipt import receipt_factory
 
 
 def test_create_and_get_receipt(receipt_repository):

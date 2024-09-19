@@ -1,12 +1,8 @@
-import datetime
-import uuid
 from typing import Optional
+import uuid
 
 from smart_cart.models.receipt import Category, Currency, Item, Market, Receipt
-from smart_cart.models.token import TokenPayload
-from smart_cart.models.user import User, UserLogin, UserSignUp
-from smart_cart.utils.auth import hash_password
-from smart_cart.utils.constants import DATETIME_NOW, DATETIME_NOW_TIMESTAMP
+from smart_cart.utils.constants import DATETIME_NOW_TIMESTAMP
 
 
 def item_factory(
