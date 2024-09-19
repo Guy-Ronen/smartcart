@@ -61,8 +61,8 @@ class Receipt(Model):
                     price=item.price,
                     quantity=item.quantity,
                     total=item.total,
-                    category=Receipt.convert_category_to_str(item.category),
-                ).as_dict()
+                    category=item.category.name,
+                )
                 for item in model.items
             ],
             total=model.total,
@@ -70,10 +70,6 @@ class Receipt(Model):
             currency=model.currency.value,
             market=model.market.value,
         )
-
-    @classmethod
-    def convert_category_to_str(cls, category):
-        return category.value
 
 
 class ReceiptRepository(BaseModel):
