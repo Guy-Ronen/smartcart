@@ -2,7 +2,7 @@ import datetime
 import uuid
 from typing import Optional
 
-from smart_cart.models.receipt import Currency, Item, Market, Receipt
+from smart_cart.models.receipt import Category, Currency, Item, Market, Receipt
 from smart_cart.models.token import TokenPayload
 from smart_cart.models.user import User, UserLogin, UserSignUp
 from smart_cart.utils.auth import hash_password
@@ -86,6 +86,7 @@ def item_factory(
     price: float = 1.0,
     quantity: int = 1,
     total: float = 1.0,
+    category: str = Category.OTHER.value,
 ):
     name = name or "item1"
 
@@ -94,6 +95,7 @@ def item_factory(
         price=price,
         quantity=quantity,
         total=total,
+        category=category,
     )
 
 
@@ -110,7 +112,7 @@ def receipt_factory(
     user_id = user_id or str(uuid.uuid4())
     items = items or [
         item_factory(),
-        item_factory(name="item2", price=2.0, quantity=2, total=4.0),
+        item_factory(name="item2", price=2.0, quantity=2, total=4.0, category=Category.DRINKS.value),
     ]
     date = date or DATETIME_NOW_TIMESTAMP
 
