@@ -19,6 +19,7 @@ class Item(MapAttribute):
     price = NumberAttribute()
     quantity = NumberAttribute()
     total = NumberAttribute()
+    category = UnicodeAttribute()
 
 
 class UserIndex(GlobalSecondaryIndex):
@@ -50,16 +51,29 @@ class Receipt(Model):
     market = UnicodeAttribute()
 
     @classmethod
-    def from_entity(cls, model: ReceiptModel):
+    def from_model(cls, model: ReceiptModel):
         return cls(
             receipt_id=model.receipt_id,
             user_id=model.user_id,
-            items=[Item(**item.model_dump()) for item in model.items],
+            items=[
+                Item(
+                    name=item.name,
+                    price=item.price,
+                    quantity=item.quantity,
+                    total=item.total,
+                    category=Receipt.convert_category_to_str(item.category),
+                ).as_dict()
+                for item in model.items
+            ],
             total=model.total,
             date=model.date,
             currency=model.currency.value,
             market=model.market.value,
         )
+
+    @classmethod
+    def convert_category_to_str(cls, category):
+        return category.value
 
 
 class ReceiptRepository(BaseModel):
@@ -72,7 +86,7 @@ class ReceiptRepository(BaseModel):
 
     @staticmethod
     def create_receipt(receipt: ReceiptModel):
-        item = Receipt.from_entity(receipt)
+        item = Receipt.from_model(receipt)
         item.save()
 
     @staticmethod
@@ -94,7 +108,7 @@ class ReceiptRepository(BaseModel):
 
     @staticmethod
     def update_receipt(receipt: ReceiptModel):
-        item = Receipt.from_entity(receipt)
+        item = Receipt.from_model(receipt)
         item.save()
 
     @staticmethod
