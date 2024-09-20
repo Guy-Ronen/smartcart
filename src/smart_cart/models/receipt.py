@@ -5,11 +5,11 @@ from typing import List
 from pydantic import BaseModel
 
 
-class Currency(enum.Enum):
+class Currency(str, enum.Enum):
     EUR = "EUR"
 
 
-class Market(enum.Enum):
+class Market(str, enum.Enum):
     ALDI = "ALDI"
     LIDL = "LIDL"
     NETTO = "NETTO"
@@ -20,7 +20,7 @@ class Market(enum.Enum):
     REAL = "REAL"
 
 
-class Category(enum.Enum):
+class Category(str, enum.Enum):
     FRUITS = "FRUITS"
     VEGETABLES = "VEGETABLES"
     MEAT = "MEAT"

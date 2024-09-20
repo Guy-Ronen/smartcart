@@ -55,20 +55,11 @@ class Receipt(Model):
         return cls(
             receipt_id=model.receipt_id,
             user_id=model.user_id,
-            items=[
-                Item(
-                    name=item.name,
-                    price=item.price,
-                    quantity=item.quantity,
-                    total=item.total,
-                    category=item.category.name,
-                )
-                for item in model.items
-            ],
+            items=[Item(**item.model_dump()) for item in model.items],
             total=model.total,
             date=model.date,
-            currency=model.currency.value,
-            market=model.market.value,
+            currency=model.currency,
+            market=model.market,
         )
 
 
