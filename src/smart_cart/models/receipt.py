@@ -1,5 +1,4 @@
 import enum
-import uuid
 from typing import List
 
 from pydantic import BaseModel
@@ -44,7 +43,7 @@ class Item(BaseModel):
 
 
 class Receipt(BaseModel):
-    receipt_id: str = str(uuid.uuid4())
+    receipt_id: str
     user_id: str
     items: List[Item]
     total: float
