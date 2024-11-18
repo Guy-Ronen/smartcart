@@ -1,5 +1,27 @@
 components:
   schemas:
+    Category:
+      enum:
+      - FRUITS
+      - VEGETABLES
+      - MEAT
+      - FISH
+      - DAIRY
+      - BREAD
+      - SWEETS
+      - DRINKS
+      - ALCOHOL
+      - CANNED
+      - FROZEN
+      - OTHER
+      title: Category
+      type: string
+    Currency:
+      const: EUR
+      enum:
+      - EUR
+      title: Currency
+      type: string
     HTTPValidationError:
       properties:
         detail:
@@ -8,6 +30,108 @@ components:
           title: Detail
           type: array
       title: HTTPValidationError
+      type: object
+    Item:
+      properties:
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          title: Name
+          type: string
+        price:
+          title: Price
+          type: number
+        quantity:
+          title: Quantity
+          type: integer
+        total:
+          title: Total
+          type: number
+      required:
+      - name
+      - price
+      - quantity
+      - total
+      - category
+      title: Item
+      type: object
+    Market:
+      enum:
+      - ALDI
+      - LIDL
+      - NETTO
+      - REWE
+      - EDEKA
+      - KAUFLAND
+      - PENNY
+      - REAL
+      title: Market
+      type: string
+    Receipt-Input:
+      properties:
+        currency:
+          $ref: '#/components/schemas/Currency'
+        date:
+          title: Date
+          type: integer
+        items:
+          items:
+            $ref: '#/components/schemas/Item'
+          title: Items
+          type: array
+        market:
+          $ref: '#/components/schemas/Market'
+        receipt_id:
+          title: Receipt Id
+          type: string
+        total:
+          title: Total
+          type: number
+        user_id:
+          title: User Id
+          type: string
+      required:
+      - receipt_id
+      - user_id
+      - items
+      - total
+      - date
+      - currency
+      - market
+      title: Receipt
+      type: object
+    Receipt-Output:
+      properties:
+        currency:
+          $ref: '#/components/schemas/Currency'
+        date:
+          title: Date
+          type: integer
+        items:
+          items:
+            $ref: '#/components/schemas/Item'
+          title: Items
+          type: array
+        market:
+          $ref: '#/components/schemas/Market'
+        receipt_id:
+          title: Receipt Id
+          type: string
+        total:
+          title: Total
+          type: number
+        user_id:
+          title: User Id
+          type: string
+      required:
+      - receipt_id
+      - user_id
+      - items
+      - total
+      - date
+      - currency
+      - market
+      title: Receipt
       type: object
     UserLogin:
       properties:
@@ -146,6 +270,29 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Login
+  /api/v1/receipts:
+    post:
+      operationId: create_receipt_api_v1_receipts_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receipt-Input'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt-Output'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Receipt
   /api/v1/signup:
     post:
       operationId: signup_api_v1_signup_post

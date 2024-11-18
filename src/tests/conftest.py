@@ -1,7 +1,9 @@
 import pytest
 
+from smart_cart.factories.user import user_factory
 from smart_cart.repositories.receipts import ReceiptRepository
 from smart_cart.repositories.users import UserRepository
+from smart_cart.utils.auth import create_access_token
 from smart_cart.utils.settings import settings
 
 
@@ -36,3 +38,8 @@ def client():
     from smart_cart.main import app
 
     return TestClient(app)
+
+
+@pytest.fixture
+def token():
+    return create_access_token(user_factory())
