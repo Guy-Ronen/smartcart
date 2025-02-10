@@ -8,6 +8,9 @@ requests
 
 ## Linting
 black
+flake8
+isort
+mypy
 
 ## Testing
 moto
@@ -25,3 +28,10 @@ python-json-logger
 types-boto3
 types-PyYAML
 types-requests
+
+sqlmodel
+asyncpg
+alembic
+sqlalchemy
+sqlalchemy-utils
+psycopg2-binary

@@ -2,17 +2,28 @@ from unittest.mock import patch
 
 import pytest
 
-from smart_cart.utils.settings import DeployedSettings, LocalSettings, get_settings
+from smart_cart.utils.settings import (  # noqa: F401
+    DeployedSettings,
+    LocalSettings,
+    TestSettings,
+    get_settings,
+)
 
 
-@pytest.mark.parametrize("environment", ["local", "test"])
-def test_local_settings(monkeypatch, environment):
+@pytest.mark.parametrize(
+    "environment, instance, secret_key",
+    [
+        ("test", "TestSettings", "test key"),
+        ("local", "LocalSettings", "local key"),
+    ],
+)
+def test_local_settings(monkeypatch, environment, instance, secret_key):
     monkeypatch.setenv("ENVIRONMENT", environment)
 
     settings = get_settings()
 
-    assert isinstance(settings, LocalSettings)
-    assert settings.token_payload_secret_key == "local key"
+    assert isinstance(settings, eval(instance))
+    assert settings.token_payload_secret_key == secret_key
 
 
 def test_deployed_settings(monkeypatch):

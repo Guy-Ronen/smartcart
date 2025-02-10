@@ -3,71 +3,34 @@ services:
     environment:
       PORT: 1000
       ENVIRONMENT: "local"
-      AWS_DEFAULT_REGION: "us-east-1"
-      AWS_ACCESS_KEY_ID : "dummyaccess"
-      AWS_SECRET_ACCESS_KEY: "dummysecret"
-      AWS_SESSION_TOKEN: "dummytoken"
-      HOST: "http://dynamodb-local:8000"
-      USERS_TABLE_NAME: "smart_cart-local-users"
-      RECEIPTS_TABLE_NAME: "smart_cart-local-receipts"
       PYTHONPATH: "/app"
+      WAIT_HOSTS: db:5432
+    env_file:
+      - env_files/base.env
     build: .
     ports:
       - "1000:1000"
     volumes:
       - .:/app
     depends_on:
-      dynamodb-local-users:
-        condition: service_completed_successfully
-      dynamodb-local-receipts:
-        condition: service_completed_successfully
-  dynamodb-local:
-    image: amazon/dynamodb-local
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:15
+    env_file:
+      - env_files/base.env
     ports:
-      - "8005:8000"
+      - "5432:5432"
+    restart: always
     healthcheck:
-      test: ["CMD-SHELL", "-c", "! curl -f http://localhost:8000"]
-      interval: 2s
-      timeout: 6s
-      retries: 10
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-  dynamodb-local-users:
-    image: amazon/aws-cli:latest
-    depends_on:
-      dynamodb-local:
-        condition: service_healthy
-    environment:
-      AWS_DEFAULT_REGION: "us-east-1"
-      AWS_ACCESS_KEY_ID: "dummyaccess"
-      AWS_SECRET_ACCESS_KEY: "dummysecret"
-      AWS_SESSION_TOKEN: "dummytoken"
-      HOST: "http://dynamodb-local:8000"
-    command: >
-      dynamodb create-table
-      --endpoint-url http://dynamodb-local:8000
-      --table-name smart_cart-local-users
-      --attribute-definitions AttributeName=user_id,AttributeType=S AttributeName=email,AttributeType=S
-      --key-schema AttributeName=user_id,KeyType=HASH
-      --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
-      --global-secondary-indexes '[{"IndexName": "email-index", "KeySchema": [{"AttributeName": "email", "KeyType": "HASH"}], "Projection": {"ProjectionType": "ALL"}, "ProvisionedThroughput": {"ReadCapacityUnits": 1, "WriteCapacityUnits": 1}}]'
-
-
-  dynamodb-local-receipts:
-    image: amazon/aws-cli:latest
-    depends_on:
-      dynamodb-local:
-        condition: service_healthy
-    environment:
-      AWS_DEFAULT_REGION: "us-east-1"
-      AWS_ACCESS_KEY_ID: "dummyaccess"
-      AWS_SECRET_ACCESS_KEY: "dummysecret"
-      AWS_SESSION_TOKEN: "dummytoken"
-      HOST: "http://dynamodb-local:8000"
-    command: >
-      dynamodb create-table
-      --endpoint-url http://dynamodb-local:8000
-      --table-name smart_cart-local-receipts
-      --attribute-definitions AttributeName=receipt_id,AttributeType=S AttributeName=user_id,AttributeType=S
-      --key-schema AttributeName=receipt_id,KeyType=HASH
-      --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
-      --global-secondary-indexes '[{"IndexName": "user_id-index", "KeySchema": [{"AttributeName": "user_id", "KeyType": "HASH"}], "Projection": {"ProjectionType": "ALL"}, "ProvisionedThroughput": {"ReadCapacityUnits": 1, "WriteCapacityUnits": 1}}]'
+volumes:
+  postgres_data:
+    driver: local

@@ -14,7 +14,7 @@ def test_existing_user_should_return_400(client, user_repository):
     response = client.post("/api/v1/signup", json=user_sign_up.model_dump())
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "Email already exists"}
+    assert response.json() == {"detail": "User already exists"}
 
 
 def test_signup_should_return_201(client):

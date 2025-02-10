@@ -1,34 +1,35 @@
 import pytest
+from sqlmodel import Session, SQLModel
 
+from smart_cart.database import engine
 from smart_cart.factories.user import user_factory
-from smart_cart.repositories.receipts import ReceiptRepository
-from smart_cart.repositories.users import UserRepository
+from smart_cart.repositories.receipts import Receipt, ReceiptRepository  # noqa
+from smart_cart.repositories.users import User, UserRepository  # noqa
 from smart_cart.utils.auth import create_access_token
-from smart_cart.utils.settings import settings
+from smart_cart.utils.constants import FIXED_USER_ID
+
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_database():
+    SQLModel.metadata.create_all(engine)
+    yield
+    SQLModel.metadata.drop_all(engine)
+
+
+@pytest.fixture
+def session():
+    with Session(engine) as session:
+        yield session
 
 
 @pytest.fixture
 def user_repository():
-    return UserRepository(
-        table_name=settings.users_table_name,
-        region=settings.region,
-        aws_access_key_id=settings.aws_access_key_id,
-        aws_secret_access_key=settings.aws_secret_access_key,
-        aws_session_token=settings.aws_session_token,
-        host=settings.host,
-    )
+    return UserRepository()
 
 
 @pytest.fixture
 def receipt_repository():
-    return ReceiptRepository(
-        table_name=settings.receipts_table_name,
-        region=settings.region,
-        aws_access_key_id=settings.aws_access_key_id,
-        aws_secret_access_key=settings.aws_secret_access_key,
-        aws_session_token=settings.aws_session_token,
-        host=settings.host,
-    )
+    return ReceiptRepository()
 
 
 @pytest.fixture
@@ -42,4 +43,4 @@ def client():
 
 @pytest.fixture
 def token():
-    return create_access_token(user_factory())
+    return create_access_token(user_factory(user_id=FIXED_USER_ID))
