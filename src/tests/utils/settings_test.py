@@ -1,7 +1,5 @@
 from unittest.mock import patch
 
-import pytest
-
 from smart_cart.utils.settings import (
     DeployedSettings,
     LocalSettings,
