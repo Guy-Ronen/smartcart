@@ -3,10 +3,8 @@ from typing import Optional
 
 from smart_cart.models.user import User, UserLogin, UserSignUp
 from smart_cart.utils.constants import (
-    FIXED_EMAIL,
     FIXED_HASHED_PASSWORD,
     FIXED_TIMESTAMP,
-    FIXED_USER_ID,
 )
 
 
@@ -38,8 +36,8 @@ def user_factory(
     is_superuser: bool = False,
     is_staff: bool = False,
 ):
-    user_id = user_id or FIXED_USER_ID
-    email = email or FIXED_EMAIL
+    user_id = user_id or str(uuid.uuid4())
+    email = email or f"user_{uuid.uuid4()}@example.com"
     hashed_password = hashed_password or FIXED_HASHED_PASSWORD
     created_at = created_at or FIXED_TIMESTAMP
 

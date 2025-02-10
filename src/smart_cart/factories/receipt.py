@@ -1,7 +1,13 @@
 import uuid
 from typing import Optional
 
-from smart_cart.models.receipt import Category, Currency, Item, Market, Receipt
+from smart_cart.models.receipt import (
+    Category,
+    Currency,
+    Item,
+    Market,
+    Receipt,
+)
 from smart_cart.utils.constants import DATETIME_NOW_TIMESTAMP
 
 
