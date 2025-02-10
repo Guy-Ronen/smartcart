@@ -1,40 +1,12 @@
-import enum
-from typing import List
+from typing import List, Optional
 
-from pydantic import BaseModel
+from sqlalchemy import JSON, Column
+from sqlmodel import Field, SQLModel
 
-
-class Currency(str, enum.Enum):
-    EUR = "EUR"
+from smart_cart.schemas.receipt import Category, Currency, Market
 
 
-class Market(str, enum.Enum):
-    ALDI = "ALDI"
-    LIDL = "LIDL"
-    NETTO = "NETTO"
-    REWE = "REWE"
-    EDEKA = "EDEKA"
-    KAUFLAND = "KAUFLAND"
-    PENNY = "PENNY"
-    REAL = "REAL"
-
-
-class Category(str, enum.Enum):
-    FRUITS = "FRUITS"
-    VEGETABLES = "VEGETABLES"
-    MEAT = "MEAT"
-    FISH = "FISH"
-    DAIRY = "DAIRY"
-    BREAD = "BREAD"
-    SWEETS = "SWEETS"
-    DRINKS = "DRINKS"
-    ALCOHOL = "ALCOHOL"
-    CANNED = "CANNED"
-    FROZEN = "FROZEN"
-    OTHER = "OTHER"
-
-
-class Item(BaseModel):
+class Item(SQLModel):
     name: str
     price: float
     quantity: int
@@ -42,11 +14,23 @@ class Item(BaseModel):
     category: Category
 
 
-class Receipt(BaseModel):
-    receipt_id: str
-    user_id: str
-    items: List[Item]
+class Receipt(SQLModel, table=True):  # type: ignore
+    receipt_id: str = Field(primary_key=True)
+    user_id: str = Field(index=True)
+    items: Optional[List[Item]] = Field(default=None, sa_column=Column(JSON))
     total: float
-    date: int
+    date: int = Field(index=True)
     currency: Currency
-    market: Market
+    market: Market = Field(index=True)
+
+    @classmethod
+    def from_model(cls, data: dict) -> "Receipt":
+        return cls(
+            receipt_id=data["receipt_id"],
+            user_id=data["user_id"],
+            items=[item for item in data.get("items", [])],
+            total=data["total"],
+            date=data["date"],
+            currency=Currency(data["currency"]),
+            market=Market(data["market"]),
+        )

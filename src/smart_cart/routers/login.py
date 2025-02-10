@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 
-from smart_cart.models.user import UserLogin, UserProfileResponse, UserResponse
 from smart_cart.repositories.users import UserRepository
+from smart_cart.schemas.user import UserLogin, UserProfileResponse, UserResponse
 from smart_cart.utils.auth import create_access_token, verify_password
 
 router = APIRouter()

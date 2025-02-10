@@ -2,7 +2,7 @@ import datetime
 import uuid
 from typing import Optional
 
-from smart_cart.models.token import TokenPayload
+from smart_cart.schemas.token import TokenPayload
 from smart_cart.utils.constants import DATETIME_NOW, DATETIME_NOW_TIMESTAMP
 
 

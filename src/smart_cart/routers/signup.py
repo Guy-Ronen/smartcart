@@ -2,8 +2,13 @@ import uuid
 
 from fastapi import APIRouter, HTTPException, status
 
-from smart_cart.models.user import User, UserProfileResponse, UserResponse, UserSignUp
 from smart_cart.repositories.users import UserRepository
+from smart_cart.schemas.user import (
+    UserProfileResponse,
+    UserResponse,
+    UserSchema,
+    UserSignUp,
+)
 from smart_cart.utils.auth import create_access_token, hash_password
 from smart_cart.utils.constants import DATETIME_NOW_TIMESTAMP
 
@@ -21,7 +26,7 @@ def signup(user_signup: UserSignUp):
 
     hashed_password = hash_password(user_signup.password)
 
-    user = User(
+    user = UserSchema(
         user_id=str(uuid.uuid4()),
         email=user_signup.email,
         hashed_password=hashed_password,

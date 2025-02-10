@@ -67,7 +67,7 @@ components:
       - REAL
       title: Market
       type: string
-    Receipt-Input:
+    ReceiptSchema-Input:
       properties:
         currency:
           $ref: '#/components/schemas/Currency'
@@ -98,9 +98,9 @@ components:
       - date
       - currency
       - market
-      title: Receipt
+      title: ReceiptSchema
       type: object
-    Receipt-Output:
+    ReceiptSchema-Output:
       properties:
         currency:
           $ref: '#/components/schemas/Currency'
@@ -131,7 +131,7 @@ components:
       - date
       - currency
       - market
-      title: Receipt
+      title: ReceiptSchema
       type: object
     UserLogin:
       properties:
@@ -277,14 +277,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Receipt-Input'
+              $ref: '#/components/schemas/ReceiptSchema-Input'
         required: true
       responses:
         '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Receipt-Output'
+                $ref: '#/components/schemas/ReceiptSchema-Output'
           description: Successful Response
         '422':
           content:

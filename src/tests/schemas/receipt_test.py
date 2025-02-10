@@ -4,7 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from smart_cart.factories.receipt import item_factory, receipt_factory
-from smart_cart.models.receipt import Currency, Item, Market, Receipt
+from smart_cart.schemas.receipt import Currency, Item, Market, ReceiptSchema
 
 # Item #
 
@@ -25,7 +25,7 @@ def test_item():
 def test_receipt():
     receipt = receipt_factory().model_dump()
 
-    receipt_schema = Receipt(**receipt)
+    receipt_schema = ReceiptSchema(**receipt)
 
     assert receipt_schema.receipt_id == receipt["receipt_id"]
     assert receipt_schema.user_id == receipt["user_id"]
@@ -55,7 +55,7 @@ def test_receipt():
 )
 def test_create_receipt_invalid(field, invalid_value):
     with pytest.raises(ValidationError):
-        Receipt(**{field: invalid_value})
+        ReceiptSchema(**{field: invalid_value})
 
 
 # def test_from_dynamodb_item(receipt_repository):
@@ -65,6 +65,6 @@ def test_create_receipt_invalid(field, invalid_value):
 
 #     item = receipt_repository.get_receipt(expected_receipt.receipt_id).model_dump()
 
-#     actual_receipt = Receipt.from_dynamoItem(item)
+#     actual_receipt = ReceiptSchema.from_dynamoItem(item)
 
 #     assert actual_receipt == expected_receipt

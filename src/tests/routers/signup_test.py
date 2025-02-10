@@ -1,7 +1,7 @@
 import jwt
 
 from smart_cart.factories.user import user_factory, user_signup_factory
-from smart_cart.models.token import TokenPayload
+from smart_cart.schemas.token import TokenPayload
 from smart_cart.utils.settings import settings
 
 

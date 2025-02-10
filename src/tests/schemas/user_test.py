@@ -8,11 +8,11 @@ from smart_cart.factories.user import (
     user_login_factory,
     user_signup_factory,
 )
-from smart_cart.models.user import (
-    User,
+from smart_cart.schemas.user import (
     UserLogin,
     UserProfileResponse,
     UserResponse,
+    UserSchema,
     UserSignUp,
 )
 from smart_cart.utils.auth import hash_password, verify_password
@@ -25,14 +25,14 @@ def compare_schema_and_model_dump(schema, model_dump):
     assert schema.model_dump() == model_dump
 
 
-# User #
+# UserSchema #
 
 
 def test_user():
     password_to_hash = "password"
     user = user_factory(hashed_password=hash_password(password_to_hash)).model_dump()
 
-    user_schema = User(**user)
+    user_schema = UserSchema(**user)
 
     compare_schema_and_model_dump(user_schema, user)
 
@@ -61,7 +61,7 @@ def test_user():
 )
 def test_create_user_invalid(field, invalid_value):
     with pytest.raises(ValidationError):
-        User(**{field: invalid_value})
+        UserSchema(**{field: invalid_value})
 
 
 # def test_from_dynamodb_item(user_repository):
@@ -71,7 +71,7 @@ def test_create_user_invalid(field, invalid_value):
 
 # item = user_repository.get_user(expected_user.user_id).model_dump()
 
-# actual_user = User.from_dynamoItem(item)
+# actual_user = UserSchema.from_dynamoItem(item)
 
 # assert actual_user == expected_user
 

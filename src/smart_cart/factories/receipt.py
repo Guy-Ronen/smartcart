@@ -1,12 +1,12 @@
 import uuid
 from typing import Optional
 
-from smart_cart.models.receipt import (
+from smart_cart.schemas.receipt import (
     Category,
     Currency,
     Item,
     Market,
-    Receipt,
+    ReceiptSchema,
 )
 from smart_cart.utils.constants import DATETIME_NOW_TIMESTAMP
 
@@ -46,7 +46,7 @@ def receipt_factory(
     ]
     date = date or DATETIME_NOW_TIMESTAMP
 
-    return Receipt(
+    return ReceiptSchema(
         receipt_id=receipt_id,
         user_id=user_id,
         items=items,
