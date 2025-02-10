@@ -18,7 +18,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install linting dependencies
-        run: pip install flake8 isort mypy
+        run: pip install flake8 isort mypy types-PyYAML pydantic
 
       - name: Build Docker image
         working-directory: src
