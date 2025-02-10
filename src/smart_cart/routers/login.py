@@ -21,18 +21,18 @@ def login(user_login: UserLogin):
             detail="Incorrect password",
         )
 
-    UserRepository.login_user(user)
+    updated_user = UserRepository.login_user(user)
 
-    access_token = create_access_token(user)
+    access_token = create_access_token(updated_user)
 
     return UserResponse(
         access_token=access_token,
         token_type="bearer",
         user=UserProfileResponse(
-            user_id=user.user_id,
-            email=user.email,
-            first_name=user.first_name,
-            last_name=user.last_name,
-            is_active=user.is_active,
+            user_id=updated_user.user_id,
+            email=updated_user.email,
+            first_name=updated_user.first_name,
+            last_name=updated_user.last_name,
+            is_active=updated_user.is_active,
         ),
     )

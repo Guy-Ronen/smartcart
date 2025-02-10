@@ -16,7 +16,7 @@ def signup(user_signup: UserSignUp):
     if existing_user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already exists",
+            detail="User already exists",
         )
 
     hashed_password = hash_password(user_signup.password)
@@ -34,6 +34,8 @@ def signup(user_signup: UserSignUp):
         is_superuser=False,
         is_staff=False,
     )
+
+    UserRepository.create_user(user)
 
     access_token = create_access_token(user)
 
