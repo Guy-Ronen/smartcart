@@ -7,7 +7,7 @@ from smart_cart.models.user import User as UserModel
 from smart_cart.utils.constants import DATETIME_NOW_TIMESTAMP
 
 
-class User(SQLModel, table=True):
+class User(SQLModel, table=True): # type: ignore
     user_id: str = Field(primary_key=True)
     email: str = Field(index=True)
     hashed_password: str = Field(min_length=8)
