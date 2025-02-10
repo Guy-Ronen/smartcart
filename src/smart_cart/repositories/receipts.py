@@ -16,7 +16,7 @@ class Item(SQLModel):
     category: Category
 
 
-class Receipt(SQLModel, table=True): # type: ignore
+class Receipt(SQLModel, table=True):  # type: ignore
     receipt_id: str = Field(primary_key=True)
     user_id: str = Field(index=True)
     items: Optional[List[Item]] = Field(default=None, sa_column=Column(JSON))
