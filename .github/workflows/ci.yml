@@ -17,6 +17,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install linting dependencies
+        run: pip install flake8
+
       - name: Build Docker image
         working-directory: src
         run: docker build -t smart_cart:latest .
