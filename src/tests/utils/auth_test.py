@@ -9,6 +9,7 @@ from smart_cart.utils.settings import settings
 
 
 def test_hash_password():
+    print(f"environment: {settings.environment}")
     password = "password"
     hashed_password = hash_password(password)
 
