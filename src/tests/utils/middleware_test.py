@@ -7,7 +7,9 @@ from fastapi.testclient import TestClient
 
 from smart_cart.factories.token import token_payload_factory
 from smart_cart.main import app
+from smart_cart.utils.constants import FIXED_USER_ID
 from smart_cart.utils.middleware import TokenMiddleware
+from smart_cart.utils.settings import settings
 
 client = TestClient(app)
 
@@ -15,9 +17,9 @@ client = TestClient(app)
 @pytest.fixture
 def valid_token():
     return jwt.encode(
-        token_payload_factory().model_dump(),
-        "local key",
-        "HS256",
+        token_payload_factory(sub=FIXED_USER_ID).model_dump(),
+        settings.token_payload_secret_key,
+        settings.hashing_algorithm,
     )
 
 
