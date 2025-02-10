@@ -66,7 +66,7 @@ migrate:
 #####
 
 test:
-	-docker compose run --rm smart_cart python -m pytest -vv --cov=smart_cart --cov-report=xml:coverage.xml --cov-report=term
+	-docker compose run --rm smart_cart python -m pytest -s -vv --cov=smart_cart --cov-report=xml:coverage.xml --cov-report=term
 	docker compose down
 	python scripts/remove_app_prefix_from_coverage_report.py
 
@@ -101,4 +101,4 @@ ci-lint:
 	docker compose run --rm --no-deps smart_cart black --check --diff . && flake8 . && isort --check-only . && mypy .
 
 ci-test:
-	docker compose run --rm smart_cart python -m pytest -vv --cov=smart_cart --cov-report=xml:coverage.xml --cov-report=lcov:coverage.lcov --cov-report=term
+	docker compose run --rm smart_cart python -m pytest -s -vv --cov=smart_cart --cov-report=xml:coverage.xml --cov-report=lcov:coverage.lcov --cov-report=term

@@ -1,9 +1,7 @@
 ## Base
 fastapi[all]
 bcrypt
-boto3
 pyjwt
-pynamodb
 requests
 
 ## Linting
@@ -13,7 +11,6 @@ isort
 mypy
 
 ## Testing
-moto
 pytest
 pytest-cov
 pytest-httpx
@@ -25,7 +22,6 @@ python-dotenv
 python-json-logger
 
 ## Types
-types-boto3
 types-PyYAML
 types-requests
 

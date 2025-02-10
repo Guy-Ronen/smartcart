@@ -16,13 +16,6 @@ class CommonSettings(BaseSettings):
     environment: str = os.getenv("ENVIRONMENT", "unknown-environment")
     token_payload_secret_key: str = ""
     hashing_algorithm: str = os.getenv("HASHING_ALGORITHM", "HS256")
-    users_table_name: str = os.getenv("USERS_TABLE_NAME", "users")
-    receipts_table_name: str = os.getenv("RECEIPTS_TABLE_NAME", "receipts")
-    region: str = os.getenv("AWS_DEFAULT_REGION", "us-east-1")
-    aws_access_key_id: str = os.getenv("AWS_ACCESS_KEY_ID", "")
-    aws_secret_access_key: str = os.getenv("AWS_SECRET_ACCESS_KEY", "")
-    aws_session_token: str = os.getenv("AWS_SESSION_TOKEN", "")
-    host: str = os.getenv("HOST", "")
 
     db: DBSettings = DBSettings()
 
@@ -52,19 +45,8 @@ class LocalSettings(CommonSettings):
         return f"postgresql://{self.db.username}:{self.db.password}@{self.db.endpoint}:{self.db.port}/{self.db.name}"
 
 
-class TestSettings(CommonSettings):
-    token_payload_secret_key: str = "test key"
-    hashing_algorithm: str = "HS256"
-
-    @property
-    def database_dsn(self) -> str:
-        return "sqlite:///:memory:"
-
-
 def get_settings() -> CommonSettings:
-    if os.getenv("ENVIRONMENT") == "test":
-        return TestSettings()
-    elif os.getenv("ENVIRONMENT") == "local":
+    if os.getenv("ENVIRONMENT") in ["local", "test"]:
         return LocalSettings()
     else:
         return DeployedSettings()
