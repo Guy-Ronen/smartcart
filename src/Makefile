@@ -23,6 +23,8 @@ help:
 	@echo "lint                            | Runs static checks"
 	@echo "lint-fix                        | Fixes linting errors"
 	@echo "generate-jwt                    | Outputs the generated JWT for local API authentication"
+	@echo makemigrations                   | Generates database migrations
+	@echo migrate                          | Applies database migrations
 
 #####
 # Build
@@ -45,6 +47,18 @@ debug:
 
 shell:
 	-docker compose run --rm --service-ports smart_cart bash
+	docker compose down
+
+#####
+# Alembic operations
+#####
+
+makemigrations:
+	docker compose run --rm smart_cart sh -c "/wait && alembic revision --autogenerate" || docker compose down
+	docker compose down
+
+migrate:
+	docker compose run --rm smart_cart sh -c "/wait && alembic upgrade head" || docker compose down
 	docker compose down
 
 #####
