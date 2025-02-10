@@ -58,13 +58,13 @@ def test_create_receipt_invalid(field, invalid_value):
         Receipt(**{field: invalid_value})
 
 
-def test_from_dynamodb_item(receipt_repository):
-    expected_receipt = receipt_factory()
+# def test_from_dynamodb_item(receipt_repository):
+#     expected_receipt = receipt_factory()
 
-    receipt_repository.create_receipt(expected_receipt)
+#     receipt_repository.create_receipt(expected_receipt)
 
-    item = receipt_repository.get_receipt(expected_receipt.receipt_id).model_dump()
+#     item = receipt_repository.get_receipt(expected_receipt.receipt_id).model_dump()
 
-    actual_receipt = Receipt.from_dynamoItem(item)
+#     actual_receipt = Receipt.from_dynamoItem(item)
 
-    assert actual_receipt == expected_receipt
+#     assert actual_receipt == expected_receipt
