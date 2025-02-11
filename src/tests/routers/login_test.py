@@ -1,8 +1,8 @@
 import jwt
 
-from smart_cart.factories.user import user_factory, user_login_factory
 from smart_cart.utils.auth import hash_password
 from smart_cart.utils.settings import settings
+from tests.factories.user import user_factory, user_login_factory
 
 
 def test_user_email_not_found_should_return_404(client):

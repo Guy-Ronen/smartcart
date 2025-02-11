@@ -3,11 +3,6 @@ import uuid
 import pytest
 from pydantic import ValidationError
 
-from smart_cart.factories.user import (
-    user_factory,
-    user_login_factory,
-    user_signup_factory,
-)
 from smart_cart.schemas.user import (
     UserLogin,
     UserProfileResponse,
@@ -16,6 +11,11 @@ from smart_cart.schemas.user import (
     UserSignUp,
 )
 from smart_cart.utils.auth import hash_password, verify_password
+from tests.factories.user import (
+    user_factory,
+    user_login_factory,
+    user_signup_factory,
+)
 
 
 def compare_schema_and_model_dump(schema, model_dump):
