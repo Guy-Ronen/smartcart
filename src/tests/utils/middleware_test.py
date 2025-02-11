@@ -5,11 +5,11 @@ import jwt
 import pytest
 from fastapi.testclient import TestClient
 
-from smart_cart.factories.token import token_payload_factory
 from smart_cart.main import app
 from smart_cart.utils.constants import FIXED_USER_ID
 from smart_cart.utils.middleware import TokenMiddleware
 from smart_cart.utils.settings import settings
+from tests.factories.token import token_payload_factory
 
 client = TestClient(app)
 

@@ -21,7 +21,7 @@ def login(user_login: UserLogin):
             detail="Incorrect password",
         )
 
-    updated_user = UserRepository.login_user(user)
+    updated_user = UserRepository.login_user(user.user_id)
 
     access_token = create_access_token(updated_user)
 

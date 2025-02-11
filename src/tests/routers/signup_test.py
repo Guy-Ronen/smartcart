@@ -1,8 +1,8 @@
 import jwt
 
-from smart_cart.factories.user import user_factory, user_signup_factory
 from smart_cart.schemas.token import TokenPayload
 from smart_cart.utils.settings import settings
+from tests.factories.user import user_factory, user_signup_factory
 
 
 def test_existing_user_should_return_400(client, user_repository):

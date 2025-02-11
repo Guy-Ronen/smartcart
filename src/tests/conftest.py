@@ -1,12 +1,12 @@
 import pytest
 from sqlmodel import Session, SQLModel
 
-from smart_cart.factories.user import user_factory
 from smart_cart.repositories.receipts import Receipt, ReceiptRepository  # noqa
 from smart_cart.repositories.users import User, UserRepository  # noqa
 from smart_cart.utils.auth import create_access_token
 from smart_cart.utils.constants import FIXED_USER_ID
 from smart_cart.utils.settings import engine
+from tests.factories.user import user_factory
 
 
 @pytest.fixture(scope="session", autouse=True)

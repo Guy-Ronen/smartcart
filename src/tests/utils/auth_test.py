@@ -3,9 +3,9 @@ from uuid import UUID
 import bcrypt
 import jwt
 
-from smart_cart.factories.user import user_factory
 from smart_cart.utils.auth import create_access_token, hash_password, verify_password
 from smart_cart.utils.settings import settings
+from tests.factories.user import user_factory
 
 
 def test_hash_password():

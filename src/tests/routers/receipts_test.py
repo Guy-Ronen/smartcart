@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pytest
 from fastapi import HTTPException
 
-from smart_cart.factories.receipt import receipt_factory
+from tests.factories.receipt import receipt_factory
 
 
 @pytest.fixture
