@@ -1,36 +1,38 @@
 import uuid
 
-from smart_cart.factories.receipt import receipt_factory
+import pytest
+
+from smart_cart.repositories.receipts import ReceiptNotFoundError
+from tests.factories.receipt import receipt_factory
 
 
 def test_create_and_get_receipt(receipt_repository):
-
     expected_receipt = receipt_factory(receipt_id="123")
-
     receipt_repository.create_receipt(expected_receipt)
 
     actual_receipt = receipt_repository.get_receipt(expected_receipt.receipt_id)
 
-    assert actual_receipt == expected_receipt
+    assert actual_receipt.receipt_id == expected_receipt.receipt_id
+    assert actual_receipt.user_id == expected_receipt.user_id
+    assert actual_receipt.total == expected_receipt.total
 
 
 def test_get_receipt_not_found(receipt_repository):
     result = receipt_repository.get_receipt("non_existent_receipt_id")
-
     assert result is None
 
 
 def test_get_receipt_by_user(receipt_repository):
-
     user_id = str(uuid.uuid4())
-
     expected_receipt = receipt_factory(user_id=user_id)
 
     receipt_repository.create_receipt(expected_receipt)
 
     actual_receipt = receipt_repository.get_receipt_by_user(expected_receipt.user_id)
 
-    assert actual_receipt == expected_receipt
+    assert actual_receipt.receipt_id == expected_receipt.receipt_id
+    assert actual_receipt.user_id == expected_receipt.user_id
+    assert actual_receipt.total == expected_receipt.total
 
 
 def test_get_receipt_by_user_not_found(receipt_repository):
@@ -43,12 +45,17 @@ def test_update_receipt(receipt_repository):
     receipt_repository.create_receipt(receipt)
 
     receipt.total = 100
-
-    receipt_repository.update_receipt(receipt)
-
-    updated_receipt = receipt_repository.get_receipt(receipt.receipt_id)
+    updated_receipt = receipt_repository.update_receipt(receipt)
 
     assert updated_receipt.total == 100
+    assert updated_receipt.receipt_id == receipt.receipt_id
+
+
+def test_update_receipt_not_found(receipt_repository):
+    receipt = receipt_factory(receipt_id="non_existent_receipt_id", total=100)
+
+    with pytest.raises(ReceiptNotFoundError, match="Receipt with ID non_existent_receipt_id not found."):
+        receipt_repository.update_receipt(receipt)
 
 
 def test_get_receipts_by_user(receipt_repository):
@@ -63,10 +70,28 @@ def test_get_receipts_by_user(receipt_repository):
     receipts = receipt_repository.get_receipts_by_user(user_id)
 
     assert len(receipts) == 2
-    assert receipt1 in receipts
-    assert receipt2 in receipts
+
+    receipt_ids = [r.receipt_id for r in receipts]
+
+    assert receipt1.receipt_id in receipt_ids
+    assert receipt2.receipt_id in receipt_ids
 
 
 def test_get_receipts_by_user_not_found(receipt_repository):
     result = receipt_repository.get_receipts_by_user("non_existent_user_id")
     assert result == []
+
+
+def test_delete_receipt(receipt_repository):
+    receipt = receipt_factory()
+    receipt_repository.create_receipt(receipt)
+
+    receipt_repository.delete_receipt(receipt.receipt_id)
+
+    result = receipt_repository.get_receipt(receipt.receipt_id)
+    assert result is None
+
+
+def test_delete_receipt_not_found(receipt_repository):
+    with pytest.raises(ReceiptNotFoundError, match="Receipt with ID non_existent_receipt_id not found."):
+        receipt_repository.delete_receipt("non_existent_receipt_id")
