@@ -91,7 +91,7 @@ generate-jwt:
 	docker compose run --rm --no-deps smart_cart python scripts/generate_jwt_token.py
 
 generate-openapi:
-	docker compose run --rm --no-deps smart_cart python scripts/generate_openapi.py
+	docker compose run --rm smart_cart python scripts/generate_openapi.py
 
 #####
 # CI targets

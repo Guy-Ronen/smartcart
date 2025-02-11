@@ -2,6 +2,11 @@ import os
 
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
+from sqlalchemy import create_engine
+from sqlmodel import SQLModel
+
+from smart_cart.models.receipt import Receipt  # noqa
+from smart_cart.models.user import User  # noqa
 
 
 class DBSettings(BaseModel):
@@ -10,6 +15,10 @@ class DBSettings(BaseModel):
     endpoint: str = os.getenv("DB_ENDPOINT", "db")
     port: int = int(os.getenv("DB_PORT", 5432))
     name: str = os.getenv("POSTGRES_DB", "smart_cart")
+
+    @property
+    def dsn(self) -> str:
+        return f"postgresql://{self.username}:{self.password}@{self.endpoint}:{self.port}/{self.name}"
 
 
 class CommonSettings(BaseSettings):
@@ -20,8 +29,11 @@ class CommonSettings(BaseSettings):
     db: DBSettings = DBSettings()
 
     @property
-    def database_dsn(self) -> str:
-        return f"postgresql://{self.db.username}:{self.db.password}@{self.db.endpoint}:{self.db.port}/{self.db.name}"
+    def engine(self):
+        return create_engine(self.db.dsn, echo=False)
+
+    def initialize_db(self):
+        SQLModel.metadata.create_all(self.engine)
 
 
 class DeployedSettings(CommonSettings):
@@ -41,8 +53,11 @@ class LocalSettings(CommonSettings):
     hashing_algorithm: str = "HS256"
 
     @property
-    def database_dsn(self) -> str:
-        return f"postgresql://{self.db.username}:{self.db.password}@{self.db.endpoint}:{self.db.port}/{self.db.name}"
+    def engine(self):
+        return create_engine(self.db.dsn, echo=True)
+
+    def initialize_db(self):
+        SQLModel.metadata.create_all(self.engine)
 
 
 def get_settings() -> CommonSettings:
@@ -53,3 +68,5 @@ def get_settings() -> CommonSettings:
 
 
 settings: CommonSettings = get_settings()
+settings.initialize_db()
+engine = settings.engine

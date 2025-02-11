@@ -1,7 +1,7 @@
 import uuid
 from typing import Optional
 
-from smart_cart.models.user import User, UserLogin, UserSignUp
+from smart_cart.schemas.user import UserLogin, UserSchema, UserSignUp
 from smart_cart.utils.constants import (
     FIXED_HASHED_PASSWORD,
     FIXED_TIMESTAMP,
@@ -41,7 +41,7 @@ def user_factory(
     hashed_password = hashed_password or FIXED_HASHED_PASSWORD
     created_at = created_at or FIXED_TIMESTAMP
 
-    return User(
+    return UserSchema(
         user_id=user_id,
         email=email,
         hashed_password=hashed_password,

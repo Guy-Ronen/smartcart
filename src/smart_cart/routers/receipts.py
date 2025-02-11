@@ -1,13 +1,13 @@
 from fastapi import APIRouter, HTTPException, status
 
-from smart_cart.models.receipt import Receipt
 from smart_cart.repositories.receipts import ReceiptRepository
+from smart_cart.schemas.receipt import ReceiptSchema
 
 router = APIRouter()
 
 
-@router.post("/receipts", response_model=Receipt, status_code=status.HTTP_201_CREATED)
-def create_receipt(receipt: Receipt):
+@router.post("/receipts", response_model=ReceiptSchema, status_code=status.HTTP_201_CREATED)
+def create_receipt(receipt: ReceiptSchema):
     try:
         ReceiptRepository.create_receipt(receipt)
     except Exception:
