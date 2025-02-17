@@ -1,11 +1,14 @@
-from typing import Optional
+from typing import TYPE_CHECKING, List, Optional
 
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, Relationship, SQLModel
+
+if TYPE_CHECKING:
+    from smart_cart.models.receipt import Receipt
 
 
-class User(SQLModel, table=True):  # type: ignore
+class User(SQLModel, table=True):
     user_id: str = Field(primary_key=True)
-    email: str = Field(index=True)
+    email: str = Field(unique=True, index=True)
     hashed_password: str = Field(min_length=8)
     first_name: str = Field(min_length=2)
     last_name: str = Field(min_length=2)
@@ -15,6 +18,8 @@ class User(SQLModel, table=True):  # type: ignore
     is_active: bool = Field(default=True, index=True)
     is_superuser: bool = Field(default=False)
     is_staff: bool = Field(default=False)
+
+    receipts: List["Receipt"] = Relationship(back_populates="user")
 
     @classmethod
     def from_model(cls, item: dict) -> "User":

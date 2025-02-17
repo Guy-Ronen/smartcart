@@ -1,3 +1,5 @@
+import uuid
+
 import pytest
 from sqlmodel import Session, SQLModel
 
@@ -44,3 +46,10 @@ def client():
 @pytest.fixture
 def token():
     return create_access_token(user_factory(user_id=FIXED_USER_ID))
+
+
+@pytest.fixture
+def user_in_db(user_repository):
+    user = user_factory(user_id=str(uuid.uuid4()))
+    user_repository.create_user(user)
+    return user
