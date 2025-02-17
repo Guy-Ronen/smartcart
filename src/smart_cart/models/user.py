@@ -6,7 +6,7 @@ if TYPE_CHECKING:
     from smart_cart.models.receipt import Receipt
 
 
-class User(SQLModel, table=True):
+class User(SQLModel, table=True): # type: ignore
     user_id: str = Field(primary_key=True)
     email: str = Field(unique=True, index=True)
     hashed_password: str = Field(min_length=8)
