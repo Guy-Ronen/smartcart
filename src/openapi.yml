@@ -271,6 +271,19 @@ paths:
           description: Validation Error
       summary: Login
   /api/v1/receipts:
+    get:
+      operationId: get_receipts_api_v1_receipts_get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ReceiptSchema-Output'
+                title: Response Get Receipts Api V1 Receipts Get
+                type: array
+          description: Successful Response
+      summary: Get Receipts
     post:
       operationId: create_receipt_api_v1_receipts_post
       requestBody:
@@ -293,6 +306,78 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Create Receipt
+  /api/v1/receipts/{receipt_id}:
+    delete:
+      operationId: delete_receipt_api_v1_receipts__receipt_id__delete
+      parameters:
+      - in: path
+        name: receipt_id
+        required: true
+        schema:
+          title: Receipt Id
+          type: string
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Delete Receipt
+    get:
+      operationId: get_receipt_api_v1_receipts__receipt_id__get
+      parameters:
+      - in: path
+        name: receipt_id
+        required: true
+        schema:
+          title: Receipt Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptSchema-Output'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Receipt
+    put:
+      operationId: update_receipt_api_v1_receipts__receipt_id__put
+      parameters:
+      - in: path
+        name: receipt_id
+        required: true
+        schema:
+          title: Receipt Id
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReceiptSchema-Input'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptSchema-Output'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Update Receipt
   /api/v1/signup:
     post:
       operationId: signup_api_v1_signup_post

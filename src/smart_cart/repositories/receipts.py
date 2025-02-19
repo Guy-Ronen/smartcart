@@ -30,15 +30,9 @@ class ReceiptRepository:
             return ReceiptSchema(**db_receipt.model_dump())
 
     @staticmethod
-    def get_receipt(receipt_id: str) -> Optional[ReceiptSchema]:
+    def get_user_receipt(user_id: str, receipt_id: str) -> Optional[ReceiptSchema]:
         with ReceiptRepository._get_session() as session:
-            db_receipt = ReceiptRepository._get_db_receipt_by_id(session, receipt_id)
-            return ReceiptSchema(**db_receipt.model_dump()) if db_receipt else None
-
-    @staticmethod
-    def get_receipt_by_user(user_id: str) -> Optional[ReceiptSchema]:
-        with ReceiptRepository._get_session() as session:
-            statement = select(Receipt).where(Receipt.user_id == user_id)
+            statement = select(Receipt).where(Receipt.user_id == user_id, Receipt.receipt_id == receipt_id)
             db_receipt = session.exec(statement).first()
             return ReceiptSchema(**db_receipt.model_dump()) if db_receipt else None
 

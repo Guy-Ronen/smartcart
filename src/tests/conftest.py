@@ -6,7 +6,6 @@ from sqlmodel import Session, SQLModel
 from smart_cart.repositories.receipts import Receipt, ReceiptRepository  # noqa
 from smart_cart.repositories.users import User, UserRepository  # noqa
 from smart_cart.utils.auth import create_access_token
-from smart_cart.utils.constants import FIXED_USER_ID
 from smart_cart.utils.settings import engine
 from tests.factories.user import user_factory
 
@@ -44,12 +43,12 @@ def client():
 
 
 @pytest.fixture
-def token():
-    return create_access_token(user_factory(user_id=FIXED_USER_ID))
-
-
-@pytest.fixture
 def user_in_db(user_repository):
     user = user_factory(user_id=str(uuid.uuid4()))
     user_repository.create_user(user)
     return user
+
+
+@pytest.fixture
+def token(user_in_db):
+    return create_access_token(user_factory(user_id=user_in_db.user_id))
