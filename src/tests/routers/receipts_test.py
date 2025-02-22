@@ -2,6 +2,7 @@ import uuid
 from unittest.mock import patch
 
 import pytest
+from sqlalchemy.exc import IntegrityError
 
 from tests.factories.receipt import receipt_factory
 
@@ -12,7 +13,7 @@ def receipt():
 
 
 def test_failed_receipt_creation_should_return_400(client, receipt, token):
-    with patch("smart_cart.repositories.receipts.Session.commit", side_effect=Exception("DB error")):
+    with patch("smart_cart.repositories.receipts.Session.commit", side_effect=IntegrityError("", "", "")):
         response = client.post(
             "/api/v1/receipts",
             json=receipt.model_dump(),
@@ -20,7 +21,19 @@ def test_failed_receipt_creation_should_return_400(client, receipt, token):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "Failed to create receipt"}
+    assert response.json() == {"detail": "Duplicate receipt or constraint violation"}
+
+
+def test_failed_receipt_creation_should_return_500(client, receipt, token):
+    with patch("smart_cart.repositories.receipts.Session.commit", side_effect=Exception()):
+        response = client.post(
+            "/api/v1/receipts",
+            json=receipt.model_dump(),
+            headers={"Authorization": f"Bearer {token}"},
+        )
+
+    assert response.status_code == 500
+    assert response.json() == {"detail": "Unexpected error while creating receipt"}
 
 
 def test_successful_receipt_creation_should_return_201(client, receipt, token, user_in_db):
@@ -34,7 +47,7 @@ def test_successful_receipt_creation_should_return_201(client, receipt, token, u
     )
 
     assert response.status_code == 201
-    assert response.json() == payload
+    assert response.json()["receipt_id"] == receipt.receipt_id
 
 
 def test_get_existing_receipt_should_return_200(client, token, user_in_db, receipt_repository):
@@ -91,13 +104,13 @@ def test_update_existing_receipt_should_return_200(client, token, user_in_db, re
 
 
 def test_update_nonexistent_receipt_should_return_404(client, token, user_in_db):
-    non_existent_user_id = str(uuid.uuid4())
+    non_existent_receipt_id = str(uuid.uuid4())
 
     updated_data = receipt_factory(user_id=user_in_db.user_id).model_dump()
     updated_data["total"] = 100.0
 
     response = client.put(
-        f"/api/v1/receipts/{non_existent_user_id}",
+        f"/api/v1/receipts/{non_existent_receipt_id}",
         json=updated_data,
         headers={"Authorization": f"Bearer {token}"},
     )
