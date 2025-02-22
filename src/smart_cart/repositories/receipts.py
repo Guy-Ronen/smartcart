@@ -1,4 +1,5 @@
-from typing import List
+from datetime import datetime
+from typing import List, Tuple
 
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
@@ -23,6 +24,17 @@ class ReceiptRepository:
         return db_receipt
 
     @staticmethod
+    def _timestamp_range_for_month_year(month: int, year: int) -> Tuple[int, int]:
+        start_timestamp = int(datetime(year, month, 1).timestamp())
+
+        if month == 12:
+            end_timestamp = int(datetime(year + 1, 1, 1).timestamp())
+        else:
+            end_timestamp = int(datetime(year, month + 1, 1).timestamp())
+
+        return start_timestamp, end_timestamp
+
+    @staticmethod
     def create_receipt(receipt: ReceiptSchema) -> ReceiptSchema:
         try:
             with ReceiptRepository._get_session() as session:
@@ -37,14 +49,26 @@ class ReceiptRepository:
             raise HTTPException(status_code=500, detail="Unexpected error while creating receipt")
 
     @staticmethod
-    def get_user_receipt(user_id: str, receipt_id: str) -> ReceiptSchema:
+    def get_receipt(user_id: str, receipt_id: str) -> ReceiptSchema:
         with ReceiptRepository._get_session() as session:
             return ReceiptSchema(**ReceiptRepository._get_db_receipt_by_id(session, user_id, receipt_id).model_dump())
 
     @staticmethod
-    def get_receipts_by_user(user_id: str) -> List[ReceiptSchema]:
+    def get_receipts(user_id: str) -> List[ReceiptSchema]:
         with ReceiptRepository._get_session() as session:
             statement = select(Receipt).where(Receipt.user_id == user_id)
+            receipts = session.exec(statement).all()
+            return [ReceiptSchema(**receipt.model_dump()) for receipt in receipts]
+
+    @staticmethod
+    def get_receipts_by_month_and_year(user_id: str, month: int, year: int) -> List[ReceiptSchema]:
+
+        start_timestamp, end_timestamp = ReceiptRepository._timestamp_range_for_month_year(month, year)
+
+        with ReceiptRepository._get_session() as session:
+            statement = select(Receipt).where(
+                Receipt.user_id == user_id, Receipt.date >= start_timestamp, Receipt.date < end_timestamp
+            )
             receipts = session.exec(statement).all()
             return [ReceiptSchema(**receipt.model_dump()) for receipt in receipts]
 

@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Optional
 
-from fastapi import APIRouter, Request, status
+from fastapi import APIRouter, Query, Request, status
 
 from smart_cart.repositories.receipts import ReceiptRepository
 from smart_cart.schemas.receipt import ReceiptSchema
@@ -16,12 +16,21 @@ def create_receipt(receipt: ReceiptSchema, request: Request):
 
 @router.get("/receipts/{receipt_id}", response_model=ReceiptSchema)
 def get_receipt(receipt_id: str, request: Request):
-    return ReceiptRepository.get_user_receipt(request.state.user.sub, receipt_id)
+    return ReceiptRepository.get_receipt(request.state.user.sub, receipt_id)
 
 
 @router.get("/receipts", response_model=List[ReceiptSchema])
-def get_receipts(request: Request):
-    return ReceiptRepository.get_receipts_by_user(request.state.user.sub)
+def get_receipts(
+    request: Request,
+    month: Optional[int] = Query(None, ge=1, le=12, description="Month (1-12)"),
+    year: Optional[int] = Query(None, ge=2000, le=2100, description="Year (2000-2100)"),
+):
+    user_id = request.state.user.sub
+
+    if month and year:
+        return ReceiptRepository.get_receipts_by_month_and_year(user_id, month, year)
+
+    return ReceiptRepository.get_receipts(user_id)
 
 
 @router.put("/receipts/{receipt_id}", response_model=ReceiptSchema)
