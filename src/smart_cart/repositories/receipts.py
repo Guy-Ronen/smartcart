@@ -1,14 +1,12 @@
-from typing import List, Optional
+from typing import List
 
+from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
 from sqlmodel import Session, select
 
 from smart_cart.models.receipt import Receipt
 from smart_cart.schemas.receipt import ReceiptSchema
 from smart_cart.utils.settings import engine
-
-
-class ReceiptNotFoundError(Exception):
-    pass
 
 
 class ReceiptRepository:
@@ -17,30 +15,31 @@ class ReceiptRepository:
         return Session(engine)
 
     @staticmethod
-    def _get_db_receipt_by_id(session: Session, receipt_id: str) -> Optional[Receipt]:
-        return session.get(Receipt, receipt_id)
+    def _get_db_receipt_by_id(session: Session, user_id: str, receipt_id: str) -> Receipt:
+        statement = select(Receipt).where(Receipt.user_id == user_id, Receipt.receipt_id == receipt_id)
+        db_receipt = session.exec(statement).first()
+        if not db_receipt:
+            raise HTTPException(status_code=404, detail="Receipt not found")
+        return db_receipt
 
     @staticmethod
     def create_receipt(receipt: ReceiptSchema) -> ReceiptSchema:
-        with ReceiptRepository._get_session() as session:
-            db_receipt = Receipt.from_model(receipt.model_dump())
-            session.add(db_receipt)
-            session.commit()
-            session.refresh(db_receipt)
-            return ReceiptSchema(**db_receipt.model_dump())
+        try:
+            with ReceiptRepository._get_session() as session:
+                db_receipt = Receipt.from_model(receipt.model_dump())
+                session.add(db_receipt)
+                session.commit()
+                session.refresh(db_receipt)
+                return ReceiptSchema(**db_receipt.model_dump())
+        except IntegrityError:
+            raise HTTPException(status_code=400, detail="Duplicate receipt or constraint violation")
+        except Exception:
+            raise HTTPException(status_code=500, detail="Unexpected error while creating receipt")
 
     @staticmethod
-    def get_receipt(receipt_id: str) -> Optional[ReceiptSchema]:
+    def get_user_receipt(user_id: str, receipt_id: str) -> ReceiptSchema:
         with ReceiptRepository._get_session() as session:
-            db_receipt = ReceiptRepository._get_db_receipt_by_id(session, receipt_id)
-            return ReceiptSchema(**db_receipt.model_dump()) if db_receipt else None
-
-    @staticmethod
-    def get_receipt_by_user(user_id: str) -> Optional[ReceiptSchema]:
-        with ReceiptRepository._get_session() as session:
-            statement = select(Receipt).where(Receipt.user_id == user_id)
-            db_receipt = session.exec(statement).first()
-            return ReceiptSchema(**db_receipt.model_dump()) if db_receipt else None
+            return ReceiptSchema(**ReceiptRepository._get_db_receipt_by_id(session, user_id, receipt_id).model_dump())
 
     @staticmethod
     def get_receipts_by_user(user_id: str) -> List[ReceiptSchema]:
@@ -50,13 +49,11 @@ class ReceiptRepository:
             return [ReceiptSchema(**receipt.model_dump()) for receipt in receipts]
 
     @staticmethod
-    def update_receipt(receipt: ReceiptSchema) -> ReceiptSchema:
+    def update_receipt(user_id: str, receipt_id: str, receipt: ReceiptSchema) -> ReceiptSchema:
         with ReceiptRepository._get_session() as session:
-            db_receipt = ReceiptRepository._get_db_receipt_by_id(session, receipt.receipt_id)
-            if not db_receipt:
-                raise ReceiptNotFoundError(f"Receipt with ID {receipt.receipt_id} not found.")
+            db_receipt = ReceiptRepository._get_db_receipt_by_id(session, user_id, receipt_id)
 
-            for key, value in receipt.model_dump().items():
+            for key, value in receipt.model_dump(exclude_unset=True).items():
                 setattr(db_receipt, key, value)
 
             session.commit()
@@ -64,11 +61,8 @@ class ReceiptRepository:
             return ReceiptSchema(**db_receipt.model_dump())
 
     @staticmethod
-    def delete_receipt(receipt_id: str) -> None:
+    def delete_receipt(user_id: str, receipt_id: str) -> None:
         with ReceiptRepository._get_session() as session:
-            db_receipt = ReceiptRepository._get_db_receipt_by_id(session, receipt_id)
-            if not db_receipt:
-                raise ReceiptNotFoundError(f"Receipt with ID {receipt_id} not found.")
-
+            db_receipt = ReceiptRepository._get_db_receipt_by_id(session, user_id, receipt_id)
             session.delete(db_receipt)
             session.commit()
