@@ -273,6 +273,31 @@ paths:
   /api/v1/receipts:
     get:
       operationId: get_receipts_api_v1_receipts_get
+      parameters:
+      - description: Month (1-12)
+        in: query
+        name: month
+        required: false
+        schema:
+          anyOf:
+          - maximum: 12
+            minimum: 1
+            type: integer
+          - type: 'null'
+          description: Month (1-12)
+          title: Month
+      - description: Year (2000-2100)
+        in: query
+        name: year
+        required: false
+        schema:
+          anyOf:
+          - maximum: 2100
+            minimum: 2000
+            type: integer
+          - type: 'null'
+          description: Year (2000-2100)
+          title: Year
       responses:
         '200':
           content:
@@ -283,6 +308,12 @@ paths:
                 title: Response Get Receipts Api V1 Receipts Get
                 type: array
           description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
       summary: Get Receipts
     post:
       operationId: create_receipt_api_v1_receipts_post

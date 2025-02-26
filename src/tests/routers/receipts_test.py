@@ -1,3 +1,4 @@
+import datetime
 import uuid
 from unittest.mock import patch
 
@@ -84,6 +85,51 @@ def test_get_all_receipts_should_return_list(client, token, user_in_db, receipt_
 
     assert response.status_code == 200
     assert len(response.json()) == 2
+
+
+def test_get_receipts_for_current_month(client, token, user_in_db, receipt_repository):
+    now = datetime.datetime.now()
+    this_month = now.month
+    this_year = now.year
+
+    one_day_ago = now - datetime.timedelta(days=1)
+    if one_day_ago.month != this_month:
+        one_day_ago = now
+
+    receipt = receipt_factory(user_id=user_in_db.user_id, date=int(now.timestamp()))
+    receipt1 = receipt_factory(user_id=user_in_db.user_id, date=int(one_day_ago.timestamp()))
+
+    receipt_repository.create_receipt(receipt)
+    receipt_repository.create_receipt(receipt1)
+
+    response = client.get(
+        f"/api/v1/receipts?month={this_month}&year={this_year}",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 200
+    assert len(response.json()) == 2
+    assert {r["receipt_id"] for r in response.json()} == {receipt.receipt_id, receipt1.receipt_id}
+
+
+def test_get_receipts_for_last_month(client, token, user_in_db, receipt_repository):
+    now = datetime.datetime.now()
+    last_month_date = now - datetime.timedelta(days=45)
+
+    last_month = now.month - 1 if now.month > 1 else 12
+    last_month_year = now.year if now.month > 1 else now.year - 1
+
+    receipt2 = receipt_factory(user_id=user_in_db.user_id, date=int(last_month_date.timestamp()))
+    receipt_repository.create_receipt(receipt2)
+
+    response = client.get(
+        f"/api/v1/receipts?month={last_month}&year={last_month_year}",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+    assert response.json()[0]["receipt_id"] == receipt2.receipt_id
 
 
 def test_update_existing_receipt_should_return_200(client, token, user_in_db, receipt_repository):
