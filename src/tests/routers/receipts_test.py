@@ -113,8 +113,10 @@ def test_get_receipts_for_current_month(client, token, user_in_db, receipt_repos
 
 
 def test_get_receipts_for_last_month(client, token, user_in_db, receipt_repository):
-    now = datetime.datetime.now()
-    last_month_date = now - datetime.timedelta(days=45)
+    now = datetime.datetime.now(datetime.timezone.utc)
+
+    first_of_current_month = datetime.datetime(now.year, now.month, 1)
+    last_month_date = first_of_current_month - datetime.timedelta(days=1)
 
     last_month = now.month - 1 if now.month > 1 else 12
     last_month_year = now.year if now.month > 1 else now.year - 1
