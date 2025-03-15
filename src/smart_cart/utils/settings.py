@@ -54,7 +54,7 @@ class LocalSettings(CommonSettings):
 
     @property
     def engine(self):
-        return create_engine(self.db.dsn, echo=True)
+        return create_engine(self.db.dsn, echo=False)
 
     def initialize_db(self):
         SQLModel.metadata.create_all(self.engine)
