@@ -1,10 +1,6 @@
 from unittest.mock import patch
 
-from smart_cart.utils.settings import (
-    DeployedSettings,
-    LocalSettings,
-    get_settings,
-)
+from smart_cart.utils.settings import DeployedSettings, LocalSettings, get_settings
 
 
 def test_local_settings(monkeypatch):

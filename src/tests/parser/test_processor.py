@@ -135,7 +135,7 @@ def test_all_result_files(processor, mock_successful_process_response):
     ]
 
     for result_file in result_files:
-        with open(Path(__file__).parent / "results" / result_file) as f:
+        with open(results_dir / result_file) as f:
             sample_response = json.load(f)
 
         with patch("requests.post") as mock_post, patch("requests.get") as mock_get:
