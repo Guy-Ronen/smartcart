@@ -53,9 +53,11 @@ def test_get_receipts(receipt_repository, user_in_db):
 
 
 def test_get_receipts_by_month_and_year(receipt_repository, user_in_db):
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.timezone.utc)
     one_day_ago = now - datetime.timedelta(days=1)
-    last_month_date = now - datetime.timedelta(days=45)
+
+    first_of_current_month = datetime.datetime(now.year, now.month, 1)
+    last_month_date = first_of_current_month - datetime.timedelta(days=1)
 
     receipt1 = receipt_factory(user_id=user_in_db.user_id, date=int(one_day_ago.timestamp()))
     receipt2 = receipt_factory(user_id=user_in_db.user_id, date=int(last_month_date.timestamp()))
@@ -66,15 +68,14 @@ def test_get_receipts_by_month_and_year(receipt_repository, user_in_db):
     month = now.month
     year = now.year
 
-    last_month = now.month - 1
-    if last_month == 0:
-        last_month = 12
+    last_month = now.month - 1 if now.month > 1 else 12
+    last_month_year = now.year if now.month > 1 else now.year - 1
 
     receipts = receipt_repository.get_receipts_by_month_and_year(user_in_db.user_id, month, year)
     assert len(receipts) == 1
     assert receipts[0].receipt_id == receipt1.receipt_id
 
-    receipts = receipt_repository.get_receipts_by_month_and_year(user_in_db.user_id, last_month, year)
+    receipts = receipt_repository.get_receipts_by_month_and_year(user_in_db.user_id, last_month, last_month_year)
     assert len(receipts) == 1
     assert receipts[0].receipt_id == receipt2.receipt_id
 
