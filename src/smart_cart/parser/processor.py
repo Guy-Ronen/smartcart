@@ -43,5 +43,9 @@ class ReceiptProcessor:
         try:
             token = self.call_process()
             return self.call_result(token)
+        except HTTPException:
+            # Re-raise HTTP exceptions as-is
+            raise
         except Exception as e:
+            # Convert other exceptions to 500 errors
             raise HTTPException(status_code=500, detail=str(e))
