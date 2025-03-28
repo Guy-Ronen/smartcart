@@ -195,3 +195,51 @@ def test_delete_nonexistent_receipt_should_return_404(client, token):
 
     assert response.status_code == 404
     assert response.json() == {"detail": "Receipt not found"}
+
+
+def test_process_receipt_success(client, mock_upload_file, sample_response, mock_successful_process_response, token):
+    with patch("requests.post") as mock_post, patch("requests.get") as mock_get:
+        mock_post.return_value.json.return_value = mock_successful_process_response
+        mock_post.return_value.status_code = 200
+
+        mock_get.return_value.json.return_value = sample_response
+        mock_get.return_value.status_code = 200
+
+        response = client.post(
+            "/api/v1/process_receipt",
+            headers={"Authorization": f"Bearer {token}"},
+            files={"file": (mock_upload_file.filename, mock_upload_file.file, mock_upload_file.content_type)},
+        )
+
+        assert response.status_code == 200
+        assert response.json()["status"] == "done"
+        assert response.json()["result"]["establishment"] == "REWE"
+
+
+def test_process_receipt_known_api_error(client, mock_upload_file, token):
+    with patch("requests.post") as mock_post:
+        mock_post.return_value.json.return_value = {"status": "error", "message": "Invalid receipt"}
+        mock_post.return_value.status_code = 400
+
+        response = client.post(
+            "/api/v1/process_receipt",
+            headers={"Authorization": f"Bearer {token}"},
+            files={"file": (mock_upload_file.filename, mock_upload_file.file, mock_upload_file.content_type)},
+        )
+
+        assert response.status_code == 400
+        assert "Error processing receipt" in response.json()["detail"]
+
+
+def test_process_receipt_unexpected_error(client, mock_upload_file, token):
+    with patch("requests.post") as mock_post:
+        mock_post.side_effect = Exception("Something went wrong")
+
+        response = client.post(
+            "/api/v1/process_receipt",
+            headers={"Authorization": f"Bearer {token}"},
+            files={"file": (mock_upload_file.filename, mock_upload_file.file, mock_upload_file.content_type)},
+        )
+
+        assert response.status_code == 500
+        assert "Something went wrong" in response.json()["detail"]
