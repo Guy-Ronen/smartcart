@@ -1,5 +1,67 @@
 components:
   schemas:
+    AddressNorm:
+      properties:
+        building:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Building
+        city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: City
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Country
+        number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Number
+        postcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Postcode
+        state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: State
+        street:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Street
+        suburb:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Suburb
+      title: AddressNorm
+      type: object
+    Body_process_receipt_api_v1_process_receipt_post:
+      properties:
+        file:
+          format: binary
+          title: File
+          type: string
+      required:
+      - file
+      title: Body_process_receipt_api_v1_process_receipt_post
+      type: object
     Category:
       enum:
       - FRUITS
@@ -22,6 +84,58 @@ components:
       - EUR
       title: Currency
       type: string
+    CustomFields:
+      properties:
+        CardLast4Digits:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Cardlast4Digits
+        Country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Country
+        Currency:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Currency
+        ExpenseType:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Expensetype
+        PaymentMethod:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Paymentmethod
+        StoreID:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Storeid
+        URL:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Url
+        VATNumber:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Vatnumber
+      title: CustomFields
+      type: object
     HTTPValidationError:
       properties:
         detail:
@@ -55,6 +169,65 @@ components:
       - category
       title: Item
       type: object
+    LineItem:
+      properties:
+        customFields:
+          additionalProperties:
+            type: string
+          title: Customfields
+          type: object
+        desc:
+          title: Desc
+          type: string
+        descClean:
+          title: Descclean
+          type: string
+        discount:
+          title: Discount
+          type: number
+        lineTotal:
+          title: Linetotal
+          type: number
+        lineType:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Linetype
+        price:
+          title: Price
+          type: number
+        productCode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Productcode
+        qty:
+          title: Qty
+          type: integer
+        symbols:
+          items:
+            type: string
+          title: Symbols
+          type: array
+        unit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Unit
+      required:
+      - qty
+      - desc
+      - price
+      - symbols
+      - discount
+      - descClean
+      - lineTotal
+      - customFields
+      title: LineItem
+      type: object
     Market:
       enum:
       - ALDI
@@ -67,6 +240,194 @@ components:
       - REAL
       title: Market
       type: string
+    ReceiptResult:
+      properties:
+        address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Address
+        addressNorm:
+          $ref: '#/components/schemas/AddressNorm'
+        barcodes:
+          items: {}
+          title: Barcodes
+          type: array
+        cash:
+          title: Cash
+          type: number
+        cashConfidence:
+          title: Cashconfidence
+          type: number
+        change:
+          title: Change
+          type: number
+        changeConfidence:
+          title: Changeconfidence
+          type: number
+        currency:
+          title: Currency
+          type: string
+        customFields:
+          $ref: '#/components/schemas/CustomFields'
+        date:
+          title: Date
+          type: string
+        dateConfidence:
+          title: Dateconfidence
+          type: number
+        dateISO:
+          format: date-time
+          title: Dateiso
+          type: string
+        discount:
+          title: Discount
+          type: number
+        discountConfidences:
+          items: {}
+          title: Discountconfidences
+          type: array
+        discounts:
+          items: {}
+          title: Discounts
+          type: array
+        documentType:
+          title: Documenttype
+          type: string
+        establishment:
+          title: Establishment
+          type: string
+        establishmentConfidence:
+          title: Establishmentconfidence
+          type: number
+        expenseType:
+          title: Expensetype
+          type: string
+        lineItems:
+          items:
+            $ref: '#/components/schemas/LineItem'
+          title: Lineitems
+          type: array
+        otherData:
+          items: {}
+          title: Otherdata
+          type: array
+        paymentMethod:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Paymentmethod
+        phoneNumber:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Phonenumber
+        rounding:
+          title: Rounding
+          type: number
+        roundingConfidence:
+          title: Roundingconfidence
+          type: number
+        serviceChargeConfidences:
+          items: {}
+          title: Servicechargeconfidences
+          type: array
+        serviceCharges:
+          items: {}
+          title: Servicecharges
+          type: array
+        subTotal:
+          title: Subtotal
+          type: number
+        subTotalConfidence:
+          title: Subtotalconfidence
+          type: number
+        summaryItems:
+          items:
+            $ref: '#/components/schemas/LineItem'
+          title: Summaryitems
+          type: array
+        tax:
+          title: Tax
+          type: number
+        taxes:
+          items: {}
+          title: Taxes
+          type: array
+        taxesConfidence:
+          items: {}
+          title: Taxesconfidence
+          type: array
+        tip:
+          title: Tip
+          type: number
+        tipConfidence:
+          title: Tipconfidence
+          type: number
+        total:
+          title: Total
+          type: number
+        totalConfidence:
+          title: Totalconfidence
+          type: number
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Url
+        validatedEstablishment:
+          title: Validatedestablishment
+          type: boolean
+        validatedSubTotal:
+          title: Validatedsubtotal
+          type: boolean
+        validatedTotal:
+          title: Validatedtotal
+          type: boolean
+      required:
+      - establishment
+      - validatedEstablishment
+      - date
+      - total
+      - cash
+      - change
+      - validatedTotal
+      - subTotal
+      - validatedSubTotal
+      - tax
+      - tip
+      - taxes
+      - serviceCharges
+      - discount
+      - rounding
+      - discounts
+      - lineItems
+      - summaryItems
+      - subTotalConfidence
+      - taxesConfidence
+      - serviceChargeConfidences
+      - discountConfidences
+      - totalConfidence
+      - dateConfidence
+      - establishmentConfidence
+      - tipConfidence
+      - cashConfidence
+      - changeConfidence
+      - roundingConfidence
+      - customFields
+      - documentType
+      - currency
+      - barcodes
+      - dateISO
+      - addressNorm
+      - expenseType
+      - otherData
+      title: ReceiptResult
+      type: object
     ReceiptSchema-Input:
       properties:
         currency:
@@ -132,6 +493,34 @@ components:
       - currency
       - market
       title: ReceiptSchema
+      type: object
+    ResponseSchema:
+      properties:
+        code:
+          title: Code
+          type: integer
+        message:
+          title: Message
+          type: string
+        result:
+          $ref: '#/components/schemas/ReceiptResult'
+        status:
+          title: Status
+          type: string
+        status_code:
+          title: Status Code
+          type: integer
+        success:
+          title: Success
+          type: boolean
+      required:
+      - message
+      - status
+      - status_code
+      - result
+      - success
+      - code
+      title: ResponseSchema
       type: object
     UserLogin:
       properties:
@@ -270,6 +659,29 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Login
+  /api/v1/process_receipt:
+    post:
+      operationId: process_receipt_api_v1_process_receipt_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_process_receipt_api_v1_process_receipt_post'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSchema'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Process Receipt
   /api/v1/receipts:
     get:
       operationId: get_receipts_api_v1_receipts_get

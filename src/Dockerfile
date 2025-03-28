@@ -23,4 +23,4 @@ ENV PORT=1000
 COPY --from=ghcr.io/ufoscout/docker-compose-wait:latest /wait /wait
 
 CMD sh -c "/wait \
-            && uvicorn --host 0.0.0.0 --port $PORT smart_cart.main:app"
+            && uvicorn --host 0.0.0.0 --port $PORT --reload smart_cart.main:app"

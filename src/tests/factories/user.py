@@ -2,10 +2,7 @@ import uuid
 from typing import Optional
 
 from smart_cart.schemas.user import UserLogin, UserSchema, UserSignUp
-from smart_cart.utils.constants import (
-    FIXED_HASHED_PASSWORD,
-    FIXED_TIMESTAMP,
-)
+from smart_cart.utils.constants import FIXED_HASHED_PASSWORD, FIXED_TIMESTAMP
 
 
 def user_signup_factory(

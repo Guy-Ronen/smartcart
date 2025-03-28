@@ -1,9 +1,11 @@
 from typing import List, Optional
 
-from fastapi import APIRouter, Query, Request, status
+from fastapi import APIRouter, File, HTTPException, Query, Request, UploadFile, status
 
+from smart_cart.parser.processor import ReceiptProcessor
 from smart_cart.repositories.receipts import ReceiptRepository
 from smart_cart.schemas.receipt import ReceiptSchema
+from smart_cart.schemas.response import ResponseSchema
 
 router = APIRouter()
 
@@ -41,3 +43,14 @@ def update_receipt(receipt_id: str, receipt: ReceiptSchema, request: Request):
 @router.delete("/receipts/{receipt_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_receipt(receipt_id: str, request: Request):
     ReceiptRepository.delete_receipt(request.state.user.sub, receipt_id)
+
+
+@router.post("/process_receipt", response_model=ResponseSchema)
+def process_receipt(file: UploadFile = File(...)):
+    processor = ReceiptProcessor(file)
+    try:
+        return processor.process_and_get_result()
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

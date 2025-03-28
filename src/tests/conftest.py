@@ -1,6 +1,11 @@
+import io
+import json
 import uuid
+from pathlib import Path
+from unittest.mock import Mock
 
 import pytest
+from fastapi import UploadFile
 from sqlmodel import Session, SQLModel
 
 from smart_cart.repositories.receipts import Receipt, ReceiptRepository  # noqa
@@ -52,3 +57,29 @@ def user_in_db(user_repository):
 @pytest.fixture
 def token(user_in_db):
     return create_access_token(user_factory(user_id=user_in_db.user_id))
+
+
+@pytest.fixture
+def mock_upload_file():
+    file_content = b"fake image data"
+    file_stream = io.BytesIO(file_content)
+    upload_file = Mock(spec=UploadFile)
+    upload_file.filename = "test_receipt.jpg"
+    upload_file.file = file_stream
+    upload_file.content_type = "image/jpeg"
+    return upload_file
+
+
+@pytest.fixture
+def sample_response():
+    results_dir = Path(__file__).parent / "parser" / "results"
+    with open(results_dir / "IMG1.json") as f:
+        return json.load(f)
+
+
+@pytest.fixture
+def mock_successful_process_response():
+    return {
+        "status": "success",
+        "token": "test-token",
+    }
