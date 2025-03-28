@@ -5,9 +5,9 @@ services:
       ENVIRONMENT: "local"
       PYTHONPATH: "/app"
       WAIT_HOSTS: db:5432
+      TABS_SCANNER_API_KEY: ${TABS_SCANNER_API_KEY}
     env_file:
       - env_files/base.env
-      - env_files/secret.env
     build: .
     ports:
       - "1000:1000"
