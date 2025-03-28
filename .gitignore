@@ -1,5 +1,5 @@
 # App files
-env_files/
+secret.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
