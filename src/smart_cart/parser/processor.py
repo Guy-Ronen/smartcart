@@ -10,9 +10,9 @@ from smart_cart.utils.settings import settings
 class ReceiptProcessor:
     def __init__(self, image: UploadFile):
         self.image = image
-        self.process_endpoint = settings.tabs_scanner_process_endpoint
-        self.result_endpoint = settings.tabs_scanner_result_endpoint
-        self.headers = {"apikey": settings.tabs_scanner_api_key}
+        self.process_endpoint = settings.tabs_scanner.process_endpoint
+        self.result_endpoint = settings.tabs_scanner.result_endpoint
+        self.headers = {"apikey": settings.tabs_scanner.api_key}
 
     def call_process(self):
         payload = {"documentType": "receipt", "decimalPlaces": "2", "region": "de"}
