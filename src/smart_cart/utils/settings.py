@@ -21,15 +21,19 @@ class DBSettings(BaseModel):
         return f"postgresql://{self.username}:{self.password}@{self.endpoint}:{self.port}/{self.name}"
 
 
+class TabsScannerSettings(BaseModel):
+    process_endpoint: str = os.getenv("TABS_SCANNER_PROCESS_ENDPOINT", "")
+    result_endpoint: str = os.getenv("TABS_SCANNER_RESULT_ENDPOINT", "")
+    api_key: str = os.getenv("TABS_SCANNER_API_KEY", "")
+
+
 class CommonSettings(BaseSettings):
     environment: str = os.getenv("ENVIRONMENT", "unknown-environment")
     token_payload_secret_key: str = ""
     hashing_algorithm: str = os.getenv("HASHING_ALGORITHM", "HS256")
-    tabs_scanner_process_endpoint: str = os.getenv("TABS_SCANNER_PROCESS_ENDPOINT", "")
-    tabs_scanner_result_endpoint: str = os.getenv("TABS_SCANNER_RESULT_ENDPOINT", "")
-    tabs_scanner_api_key: str = os.getenv("TABS_SCANNER_API_KEY", "")
 
     db: DBSettings = DBSettings()
+    tabs_scanner: TabsScannerSettings = TabsScannerSettings()
 
     @property
     def engine(self):
