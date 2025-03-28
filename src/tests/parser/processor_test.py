@@ -3,39 +3,15 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
-from fastapi import HTTPException, UploadFile
+from fastapi import HTTPException
 
 from smart_cart.parser.processor import ReceiptProcessor
 from smart_cart.schemas.response import ResponseSchema
 
 
 @pytest.fixture
-def mock_upload_file():
-    mock = Mock(spec=UploadFile)
-    mock.filename = "test_receipt.jpg"
-    mock.file = Mock()
-    mock.content_type = "image/jpeg"
-    return mock
-
-
-@pytest.fixture
-def sample_response():
-    results_dir = Path(__file__).parent / "results"
-    with open(results_dir / "IMG1.json") as f:
-        return json.load(f)
-
-
-@pytest.fixture
 def processor(mock_upload_file):
     return ReceiptProcessor(mock_upload_file)
-
-
-@pytest.fixture
-def mock_successful_process_response():
-    return {
-        "status": "success",
-        "token": "test-token",
-    }
 
 
 @pytest.fixture
@@ -48,7 +24,7 @@ def mock_api_calls(mock_successful_process_response, sample_response):
         yield mock_post, mock_get
 
 
-def test_successful_process_and_get_result(processor, mock_api_calls, sample_response):
+def test_successful_process_and_get_result(processor, mock_api_calls):
     result = processor.process_and_get_result()
 
     assert isinstance(result, ResponseSchema)
