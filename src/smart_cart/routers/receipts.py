@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from fastapi import APIRouter, File, Query, Request, UploadFile, status
+from fastapi import APIRouter, File, HTTPException, Query, Request, UploadFile, status
 
 from smart_cart.parser.processor import ReceiptProcessor
 from smart_cart.repositories.receipts import ReceiptRepository
@@ -48,4 +48,9 @@ def delete_receipt(receipt_id: str, request: Request):
 @router.post("/process_receipt", response_model=ResponseSchema)
 def process_receipt(file: UploadFile = File(...)):
     processor = ReceiptProcessor(file)
-    return processor.process_and_get_result()
+    try:
+        return processor.process_and_get_result()
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
