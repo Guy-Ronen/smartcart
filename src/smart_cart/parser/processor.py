@@ -13,7 +13,7 @@ from smart_cart.utils.settings import settings
 
 
 class ReceiptProcessor:
-    def __init__(self, image: UploadFile):
+    def __init__(self, image: Optional[UploadFile] = None):
         self.image = image
         self.process_endpoint = settings.tabs_scanner.process_endpoint
         self.result_endpoint = settings.tabs_scanner.result_endpoint
