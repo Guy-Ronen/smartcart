@@ -212,8 +212,14 @@ def test_process_receipt_success(client, mock_upload_file, sample_response, mock
         )
 
         assert response.status_code == 200
-        assert response.json()["status"] == "done"
-        assert response.json()["result"]["establishment"] == "REWE"
+
+        data = response.json()
+
+        assert "receipt_id" in data
+        assert data["market"] == "REWE"
+        assert data["total"] == 0.99
+        assert data["currency"] == "EUR"
+        assert data["items"][0]["name"] == "SUPPENGRUEN"
 
 
 def test_process_receipt_known_api_error(client, mock_upload_file, token):
