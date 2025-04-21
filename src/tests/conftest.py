@@ -72,7 +72,7 @@ def mock_upload_file():
 
 @pytest.fixture
 def sample_response():
-    results_dir = Path(__file__).parent / "parser" / "results"
+    results_dir = Path(__file__).parent / "parser" / "receipts"
     with open(results_dir / "IMG1.json") as f:
         return json.load(f)
 
