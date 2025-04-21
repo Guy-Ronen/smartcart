@@ -1,10 +1,11 @@
 import json
 from pathlib import Path
 
-from smart_cart.parser.processor import ReceiptProcessor
 from smart_cart.schemas.response import ResponseSchema
+from smart_cart.services.receipts.scanner import ReceiptScanner
 
-receipts_path = Path(__file__).parent.parent / "tests" / "parser" / "receipts"
+receipts_path = Path(__file__).parent.parent / "tests" / "services" / "receipts" / "results"
+
 
 for receipt_file in receipts_path.glob("*.json"):
     print(f"Processing receipt: {receipt_file.name}")
@@ -12,8 +13,8 @@ for receipt_file in receipts_path.glob("*.json"):
         data = json.load(f)
         response = ResponseSchema(**data)
 
-        processor = ReceiptProcessor(image=None)
-        result = processor.parse_response_to_receipt(response, user_id="test-user")
+        scanner = ReceiptScanner(image=None)
+        result = scanner.parse_response_to_receipt(response, user_id="test-user")
 
         result_dict = result.model_dump()
 

@@ -8,11 +8,11 @@ from fastapi import HTTPException, UploadFile
 
 from smart_cart.schemas.receipt import Category, Currency, Item, Market, ReceiptSchema
 from smart_cart.schemas.response import LineItem, ResponseSchema
-from smart_cart.utils.category_map import CATEGORY_MAP
+from smart_cart.services.receipts.categorizer import CATEGORY_MAP
 from smart_cart.utils.settings import settings
 
 
-class ReceiptProcessor:
+class ReceiptScanner:
     def __init__(self, image: Optional[UploadFile] = None):
         self.image = image
         self.process_endpoint = settings.tabs_scanner.process_endpoint
