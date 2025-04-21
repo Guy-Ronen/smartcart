@@ -1,0 +1,283 @@
+{
+    "message": "SUCCESS: Result available",
+    "status": "done",
+    "status_code": 3,
+    "result": {
+        "establishment": "PENNY MARKT GmbH",
+        "validatedEstablishment": false,
+        "date": "2015-06-06 21:45:00",
+        "total": 5.03,
+        "url": "",
+        "phoneNumber": "",
+        "paymentMethod": "",
+        "address": "2 Stk x",
+        "cash": 0,
+        "change": 0,
+        "validatedTotal": false,
+        "subTotal": 5.03,
+        "validatedSubTotal": true,
+        "tax": 0,
+        "tip": 0,
+        "taxes": [],
+        "serviceCharges": [],
+        "discount": 0,
+        "rounding": 0,
+        "discounts": [],
+        "lineItems": [
+            {
+                "qty": 0,
+                "desc": "WEIZENBROETCHEN",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "B"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "WEIZENBROETCHEN",
+                "lineTotal": 0.79,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "PENNY H - Milch",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "B"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "PENNY H - Milch",
+                "lineTotal": 0.51,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "PENNY Chips",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "B"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "PENNY Chips",
+                "lineTotal": 0.79,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 2,
+                "desc": "TURMBRAEU PILS",
+                "unit": "",
+                "price": 0.35,
+                "symbols": [
+                    "A"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "TURMBRAEU PILS",
+                "lineTotal": 0.7,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 2,
+                "desc": "PFAND 0,25 EURO",
+                "unit": "",
+                "price": 0.25,
+                "symbols": [
+                    "A"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "PFAND 0,25 EURO",
+                "lineTotal": 0.5,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "Krombacher Dose",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "A"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Krombacher Dose",
+                "lineTotal": 0.79,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "PFAND 0,25 EURO",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "A"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "PFAND 0,25 EURO",
+                "lineTotal": 0.25,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "Schwip Schwap Do",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "A"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Schwip Schwap Do",
+                "lineTotal": 0.45,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "PFAND 0,25 EURO",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "A"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "PFAND 0,25 EURO",
+                "lineTotal": 0.25,
+                "productCode": "",
+                "customFields": {}
+            }
+        ],
+        "summaryItems": [
+            {
+                "qty": 0,
+                "desc": "SUMME EUR",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "Total",
+                "descClean": "SUMME EUR",
+                "lineTotal": 5.03,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "Geg.BAR EUR",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Geg.BAR EUR",
+                "lineTotal": 6,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "R\u00fcckgeld BAR EUR",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "R\u00fcckgeld BAR EUR",
+                "lineTotal": 0.97,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "A = 19,0% 2,47 0.47",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "A = 19,0% 2,47 0.47",
+                "lineTotal": 2.94,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "B = 7,0% 1.95 0,14",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "B = 7,0% 1.95 0,14",
+                "lineTotal": 2.09,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "Gesamtbetrag 4.42 0,61",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Gesamtbetrag 4.42 0,61",
+                "lineTotal": 5.03,
+                "productCode": "",
+                "customFields": {}
+            }
+        ],
+        "subTotalConfidence": 0.99,
+        "taxesConfidence": [],
+        "serviceChargeConfidences": [],
+        "discountConfidences": [],
+        "totalConfidence": 0.7,
+        "dateConfidence": 0.7,
+        "establishmentConfidence": 0.8,
+        "tipConfidence": 0,
+        "cashConfidence": 0,
+        "changeConfidence": 0,
+        "roundingConfidence": 0,
+        "customFields": {
+            "URL": "",
+            "Country": "",
+            "StoreID": "",
+            "Currency": "EUR",
+            "VATNumber": "",
+            "ExpenseType": "",
+            "PaymentMethod": "",
+            "CardLast4Digits": ""
+        },
+        "documentType": "receipt",
+        "currency": "EUR",
+        "barcodes": [],
+        "dateISO": "2015-06-06T21:45:00",
+        "addressNorm": {
+            "city": "",
+            "state": "",
+            "number": "",
+            "street": "",
+            "suburb": "",
+            "country": "",
+            "building": "2 Stk X",
+            "postcode": ""
+        },
+        "expenseType": "None",
+        "otherData": []
+    },
+    "success": true,
+    "code": 202
+}

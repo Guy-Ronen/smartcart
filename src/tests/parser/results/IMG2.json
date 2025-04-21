@@ -1,0 +1,284 @@
+{
+    "message": "SUCCESS: Result available",
+    "status": "done",
+    "status_code": 3,
+    "result": {
+        "establishment": "PENNY MARKT GmbH",
+        "validatedEstablishment": false,
+        "date": "2014-10-18 19:03:00",
+        "total": 10.56,
+        "url": "",
+        "phoneNumber": "",
+        "paymentMethod": "",
+        "address": "8 Stk x 0,25",
+        "cash": 0,
+        "change": 0,
+        "validatedTotal": false,
+        "subTotal": 10.56,
+        "validatedSubTotal": true,
+        "tax": 0,
+        "tip": 0,
+        "taxes": [],
+        "serviceCharges": [],
+        "discount": 0,
+        "rounding": 0,
+        "discounts": [],
+        "lineItems": [
+            {
+                "qty": 0,
+                "desc": "Saftorangen",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "B"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Saftorangen",
+                "lineTotal": 1.49,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "Banane Golden V",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "B"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Banane Golden V Apfel gruen",
+                "lineTotal": 1.19,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "0,410 kg x 1,99 EUR / kg",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "B"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "0,410 kg 1,99 EUR /",
+                "lineTotal": 0.82,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "Pflaume 750g",
+                "unit": "750g",
+                "price": 0,
+                "symbols": [
+                    "B"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Pflaume 750g",
+                "lineTotal": 0.99,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "Orto Mio Oliven",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "B"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Orto Mio Oliven",
+                "lineTotal": 0.69,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 2,
+                "desc": "HAUTKLAR 3IN1",
+                "unit": "",
+                "price": 2.99,
+                "symbols": [
+                    "A"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "HAUTKLAR 3IN1",
+                "lineTotal": 5.98,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "Today Nachf\u00fcllbe",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "A"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Today Nachf\u00fcllbe",
+                "lineTotal": 0.65,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "Sp\u00fcl- / HH- T\u00fccher",
+                "unit": "",
+                "price": 0,
+                "symbols": [
+                    "A"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Sp\u00fcl- / HH- T\u00fccher",
+                "lineTotal": 0.75,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 8,
+                "desc": "LEERGUT EINWEG",
+                "unit": "",
+                "price": 0.25,
+                "symbols": [
+                    "-",
+                    "A"
+                ],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "LEERGUT EINWEG",
+                "lineTotal": -2,
+                "productCode": "",
+                "customFields": {}
+            }
+        ],
+        "summaryItems": [
+            {
+                "qty": 0,
+                "desc": "SUMME EUR",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "Total",
+                "descClean": "SUMME EUR",
+                "lineTotal": 10.56,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "Geg.BAR EUR",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Geg.BAR EUR",
+                "lineTotal": 20,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "R\u00fcckgeld BAR EUR",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "R\u00fcckgeld BAR EUR",
+                "lineTotal": 9.44,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "A = 19,0% 4.52 0.86",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "A = 19,0% 4.52 0.86",
+                "lineTotal": 5.38,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "B = 7,0% 4,84 0,34",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "B = 7,0% 4,84 0,34",
+                "lineTotal": 5.18,
+                "productCode": "",
+                "customFields": {}
+            },
+            {
+                "qty": 0,
+                "desc": "Gesamtbetrag 9.36 1,20",
+                "unit": "",
+                "price": 0,
+                "symbols": [],
+                "discount": 0,
+                "lineType": "",
+                "descClean": "Gesamtbetrag 9.36 1,20",
+                "lineTotal": 10.56,
+                "productCode": "",
+                "customFields": {}
+            }
+        ],
+        "subTotalConfidence": 0.99,
+        "taxesConfidence": [],
+        "serviceChargeConfidences": [],
+        "discountConfidences": [],
+        "totalConfidence": 0.7,
+        "dateConfidence": 0.7,
+        "establishmentConfidence": 0.8,
+        "tipConfidence": 0,
+        "cashConfidence": 0,
+        "changeConfidence": 0,
+        "roundingConfidence": 0,
+        "customFields": {
+            "URL": "",
+            "Country": "",
+            "StoreID": "",
+            "Currency": "EUR",
+            "VATNumber": "",
+            "ExpenseType": "",
+            "PaymentMethod": "",
+            "CardLast4Digits": ""
+        },
+        "documentType": "receipt",
+        "currency": "EUR",
+        "barcodes": [],
+        "dateISO": "2014-10-18T19:03:00",
+        "addressNorm": {
+            "city": "",
+            "state": "",
+            "number": "",
+            "street": "",
+            "suburb": "",
+            "country": "",
+            "building": "8 Stk X 0,25",
+            "postcode": ""
+        },
+        "expenseType": "None",
+        "otherData": []
+    },
+    "success": true,
+    "code": 202
+}

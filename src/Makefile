@@ -93,6 +93,9 @@ generate-jwt:
 generate-openapi:
 	docker compose run --rm smart_cart python scripts/generate_openapi.py
 
+parse-receipt:
+	docker compose run --rm --no-deps smart_cart python scripts/parse_receipt.py
+
 #####
 # CI targets
 #####
