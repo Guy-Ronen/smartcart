@@ -17,6 +17,8 @@ class Market(str, enum.Enum):
     KAUFLAND = "KAUFLAND"
     PENNY = "PENNY"
     REAL = "REAL"
+    DM = "DM"
+    OTHER = "OTHER"
 
 
 class Category(str, enum.Enum):
@@ -25,12 +27,14 @@ class Category(str, enum.Enum):
     MEAT = "MEAT"
     FISH = "FISH"
     DAIRY = "DAIRY"
-    BREAD = "BREAD"
+    BAKED = "BAKED"
     SWEETS = "SWEETS"
     DRINKS = "DRINKS"
     ALCOHOL = "ALCOHOL"
     CANNED = "CANNED"
     FROZEN = "FROZEN"
+    COSMETICS = "COSMETICS"
+    SPICES = "SPICES"
     OTHER = "OTHER"
 
 

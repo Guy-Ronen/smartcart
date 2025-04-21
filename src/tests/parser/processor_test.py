@@ -6,7 +6,7 @@ import pytest
 from fastapi import HTTPException
 
 from smart_cart.parser.processor import ReceiptProcessor
-from smart_cart.schemas.response import ResponseSchema
+from smart_cart.schemas.receipt import ReceiptSchema
 
 
 @pytest.fixture
@@ -27,12 +27,11 @@ def mock_api_calls(mock_successful_process_response, sample_response):
 def test_successful_process_and_get_result(processor, mock_api_calls):
     result = processor.process_and_get_result()
 
-    assert isinstance(result, ResponseSchema)
-    assert result.status == "done"
-    assert result.success is True
-    assert result.result.establishment == "REWE"
-    assert result.result.total == 0.99
-    assert result.result.currency == "EUR"
+    assert isinstance(result, ReceiptSchema)
+    assert result.market == "REWE"
+    assert result.total == 0.99
+    assert result.currency == "EUR"
+    assert result.items[0].name == "SUPPENGRUEN"
 
     mock_post, mock_get = mock_api_calls
     mock_post.assert_called_once()
@@ -81,26 +80,24 @@ def test_result_polling(processor, mock_successful_process_response, sample_resp
 
         result = processor.process_and_get_result()
 
-        assert isinstance(result, ResponseSchema)
-        assert result.status == "done"
-        assert result.success is True
+        assert isinstance(result, ReceiptSchema)
+        assert result.market == "REWE"
+        assert result.total == 0.99
+        assert result.items[0].name == "SUPPENGRUEN"
         assert mock_get.call_count == 3
 
 
 def test_response_schema_validation(processor, mock_api_calls):
     result = processor.process_and_get_result()
 
-    assert isinstance(result, ResponseSchema)
-    assert hasattr(result.result, "establishment")
-    assert hasattr(result.result, "date")
-    assert hasattr(result.result, "total")
-    assert hasattr(result.result, "lineItems")
-    assert hasattr(result.result, "customFields")
-    assert hasattr(result.result, "addressNorm")
+    assert isinstance(result, ReceiptSchema)
+    assert result.market == "REWE"
+    assert result.total > 0
+    assert result.items
 
 
 def test_all_result_files(processor, mock_successful_process_response):
-    results_dir = Path(__file__).parent / "results"
+    results_dir = Path(__file__).parent / "receipts"
     result_files = [
         "IMG1.json",
         "IMG2.json",
@@ -122,13 +119,9 @@ def test_all_result_files(processor, mock_successful_process_response):
             mock_get.return_value.status_code = 200
 
             result = processor.process_and_get_result()
-
-            assert isinstance(result, ResponseSchema)
-            assert result.status == "done"
-            assert result.success is True
-            assert result.result.establishment is not None
-            assert result.result.total is not None
-            assert result.result.currency is not None
+            assert isinstance(result, ReceiptSchema)
+            assert result.total > 0
+            assert result.items
 
 
 def test_unexpected_error_handling(processor):
@@ -138,4 +131,4 @@ def test_unexpected_error_handling(processor):
         with pytest.raises(HTTPException) as exc_info:
             processor.process_and_get_result()
         assert exc_info.value.status_code == 500
-        assert "Invalid JSON: line 1 column 1 (char 0)" in str(exc_info.value.detail)
+        assert "Invalid JSON" in str(exc_info.value.detail)
