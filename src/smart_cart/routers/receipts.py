@@ -2,9 +2,9 @@ from typing import List, Optional
 
 from fastapi import APIRouter, File, HTTPException, Query, Request, UploadFile, status
 
-from smart_cart.parser.processor import ReceiptProcessor
 from smart_cart.repositories.receipts import ReceiptRepository
 from smart_cart.schemas.receipt import ReceiptSchema
+from smart_cart.services.receipts.scanner import ReceiptScanner
 
 router = APIRouter()
 
@@ -47,9 +47,9 @@ def delete_receipt(receipt_id: str, request: Request):
 @router.post("/process_receipt", response_model=ReceiptSchema)
 def process_receipt(request: Request, file: UploadFile = File(...)):
     user_id = request.state.user.sub
-    processor = ReceiptProcessor(file)
+    scanner = ReceiptScanner(file)
     try:
-        return processor.process_and_get_result(user_id=user_id)
+        return scanner.process_and_get_result(user_id=user_id)
     except HTTPException:
         raise
     except Exception as e:
